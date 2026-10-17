@@ -1,6 +1,6 @@
 """
-Web Application Security Tester
-A modern, user-friendly security testing tool using Requests, Selenium, and Burp Suite integration.
+Kavalu Labs Security Engine
+High-assurance web application security testing tool using Requests, Selenium, and Burp Suite integration.
 
 Developed by Vinayaka N Walishettar
 """
@@ -18,15 +18,31 @@ app = Flask(__name__, template_folder='.')
 app.config['SECRET_KEY'] = 'your-secret-key-here'
 scanner = SecurityScanner()
 
+@app.before_request
+def handle_preflight():
+    if request.method == 'OPTIONS':
+        res = app.make_default_options_response()
+        res.headers['Access-Control-Allow-Origin'] = '*'
+        res.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+        res.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
+        return res
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
+    return response
+
 @app.route('/')
 def index():
     """Main dashboard page."""
     return render_template('index.html')
 
-@app.route('/api/scan', methods=['POST'])
+@app.route('/api/scan', methods=['POST', 'OPTIONS'])
 def start_scan():
     """Start a security scan."""
-    data = request.json
+    data = request.json or {}
     target_url = data.get('url')
     scan_types = data.get('scan_types', ['all'])
     use_burp = data.get('use_burp', False)
@@ -71,4 +87,4 @@ def scan_history():
 if __name__ == '__main__':
     os.makedirs('reports', exist_ok=True)
     os.makedirs('logs', exist_ok=True)
-    app.run( host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)

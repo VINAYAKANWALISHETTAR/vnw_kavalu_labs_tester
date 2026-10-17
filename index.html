@@ -2,872 +2,942 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kavalu Labs Tester Platform — By Vinayaka N Walishettar</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Kavalu Labs Security Engine — By Vinayaka N Walishettar</title>
+    <meta name="description" content="Kavalu Labs Security Engine — High-assurance web application security testing, reconnaissance, vulnerability probing & automated verification.">
+    <meta name="theme-color" content="#0A0A0A">
+    <meta name="author" content="Vinayaka N Walishettar">
+
+    <!-- Fonts inspired by nayaka100.in: Anton, Space Mono, Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --bg: #080607;
-            --panel: #110B0D;
-            --elev: #1A0D11;
-            --red: #FF303F;
-            --red-hover: #ff5561;
-            --crim: #8F1024;
-            --crim-dark: #450912;
-            --tx: #F5EDEF;
-            --tx2: #A99BA0;
-            --line: #3a1219;
-            --line2: #241417;
-            --ok: #7CFF9B;
-            --warn: #FFB347;
-            --low: #8AB4FF;
-            --info: #8AB4FF;
-            --disp: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-            --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
-            --r: 6px;
+            --ac: #D4FF00;          /* Cyber lime accent */
+            --rd: #FF0000;          /* Pure cyber red */
+            --rd-glow: rgba(255, 0, 0, 0.35);
+            --bg: #0A0A0A;          /* Pure dark background */
+            --sf: #141414;          /* Surface cards */
+            --sf2: #1b1b1a;         /* Elevated surface */
+            --ln: #2a2a27;          /* Technical line border */
+            --ln-hover: #3d3d38;
+            --tx: #F2EFE8;          /* Creamy off-white text */
+            --mu: #8A8A82;          /* Muted text */
+            --ok: #7CFF9B;          /* Green pass/safe */
+            --warn: #FFB347;        /* Amber warning */
+            --low: #8AB4FF;         /* Blue low severity */
+            --dp: Anton, Impact, "Arial Narrow", sans-serif;
+            --mo: "Space Mono", ui-monospace, Menlo, Consolas, monospace;
+            --sans: Inter, system-ui, -apple-system, sans-serif;
+            --e: cubic-bezier(.16, 1, .3, 1);
+            color-scheme: dark;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: var(--disp);
         }
 
         body {
             background: var(--bg);
             color: var(--tx);
+            font: 15px/1.6 var(--sans);
             min-height: 100vh;
-            line-height: 1.6;
+            overflow-x: clip;
             -webkit-font-smoothing: antialiased;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(143, 16, 36, 0.25) 0%, transparent 60%),
-                linear-gradient(rgba(255, 48, 63, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 48, 63, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 32px 32px, 32px 32px;
+                radial-gradient(circle at 50% 0%, rgba(255, 0, 0, 0.12) 0%, transparent 55%),
+                linear-gradient(rgba(242, 239, 232, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(242, 239, 232, 0.035) 1px, transparent 1px);
+            background-size: 100% 100%, 48px 48px, 48px 48px;
             background-position: 0 0, -1px -1px, -1px -1px;
         }
 
-        .main-container {
-            max-width: 1080px;
-            margin: 0 auto;
-            padding: 32px 20px 48px;
+        /* Top red laser scanline */
+        #sl {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 3px;
+            background: var(--rd);
+            box-shadow: 0 0 16px var(--rd);
+            z-index: 99;
         }
 
-        /* Tactical Header */
-        .app-header {
-            text-align: center;
-            padding: 24px 16px 36px;
-            position: relative;
-        }
-
-        .brand-pill {
-            display: inline-flex;
+        /* Top Navigation Bar */
+        .nv {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 4px 14px;
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 50px;
-            color: var(--red);
-            font: 600 11px var(--mono);
-            letter-spacing: 0.12em;
-            margin-bottom: 16px;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.75rem 4vw;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--ln);
         }
 
-        .brand-pill .pulse-dot {
-            width: 7px;
-            height: 7px;
-            background: var(--red);
-            border-radius: 50px;
-            box-shadow: 0 0 10px var(--red);
-            animation: pulseDot 2s infinite;
-        }
-
-        @keyframes pulseDot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
-        }
-
-        .app-header h1 {
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            font-weight: 800;
+        .lg {
+            font: 26px var(--dp);
             color: var(--tx);
-            letter-spacing: -0.02em;
-            margin-bottom: 10px;
-        }
-
-        .app-header h1 em {
-            font-style: normal;
-            color: var(--red);
-            text-shadow: 0 0 25px rgba(255, 48, 63, 0.45);
-        }
-
-        .app-header p {
-            color: var(--tx2);
-            font-size: 1rem;
-            max-width: 650px;
-            margin: 0 auto 16px;
-        }
-
-        .author-badge {
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 14px;
-            background: rgba(255, 48, 63, 0.06);
-            border: 1px solid var(--line);
-            border-radius: var(--r);
-            font: 500 12px var(--mono);
-            color: var(--tx2);
         }
 
-        .author-badge strong {
-            color: var(--red);
-            font-weight: 700;
+        .lg em {
+            font-style: normal;
+            color: var(--rd);
         }
 
-        /* Tactical Cards */
-        .glass-card {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 8px;
-            box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.85);
-            margin-bottom: 24px;
-            overflow: hidden;
-            transition: border-color 0.25s, box-shadow 0.25s;
-        }
-
-        .glass-card:hover {
-            border-color: rgba(255, 48, 63, 0.4);
-            box-shadow: 0 16px 40px -10px rgba(255, 48, 63, 0.12);
-        }
-
-        .section-header {
+        .nv-badges {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 16px 24px;
-            background: var(--elev);
-            border-bottom: 1px solid var(--line);
         }
 
-        .section-number {
+        .tg {
+            font: 11px var(--mo);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1.5px solid currentColor;
+            padding: 0.2rem 0.6rem;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            width: 26px;
-            height: 26px;
-            background: rgba(255, 48, 63, 0.12);
-            border: 1px solid var(--red);
-            border-radius: var(--r);
-            color: var(--red);
-            font: 700 12px var(--mono);
+            gap: 6px;
         }
 
-        .section-title {
-            font-size: 1rem;
+        .tg.r {
+            background: var(--rd);
+            border-color: var(--rd);
+            color: #0A0A0A;
             font-weight: 700;
-            color: var(--tx);
-            letter-spacing: 0.04em;
+        }
+
+        .tg.ac {
+            color: var(--ac);
+            border-color: var(--ac);
+        }
+
+        /* Container */
+        .main-container {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 36px 20px 80px;
+        }
+
+        /* Hero / App Header */
+        .app-header {
+            margin-bottom: 32px;
+            border-left: 3px solid var(--rd);
+            padding-left: 20px;
+        }
+
+        .lb {
+            font: 12px var(--mo);
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            font-family: var(--mono);
+            color: var(--mu);
+            margin: 0 0 6px;
         }
 
-        .card-body {
-            padding: 24px;
+        .lb b {
+            color: var(--rd);
         }
 
-        /* Inputs */
-        .input-wrapper {
-            position: relative;
+        .app-header h1 {
+            font: clamp(34px, 5.5vw, 64px)/0.95 var(--dp);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--tx);
+            margin-bottom: 12px;
+        }
+
+        .app-header h1 span {
+            color: var(--rd);
+        }
+
+        .app-header p {
+            color: var(--mu);
+            font-size: 15px;
+            max-width: 700px;
+            line-height: 1.5;
+        }
+
+        .arch-badge {
+            margin-top: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 14px;
+            background: var(--sf);
+            border: 1px solid var(--ln);
+            font: 12px var(--mo);
+            color: var(--mu);
+        }
+
+        .arch-badge strong {
+            color: var(--tx);
+            font-weight: 700;
+        }
+
+        .arch-badge .dot {
+            width: 7px;
+            height: 7px;
+            background: var(--rd);
+            border-radius: 50%;
+            display: inline-block;
+            animation: bl 1.2s steps(2) infinite;
+        }
+
+        @keyframes bl {
+            50% { opacity: 0.2; }
+        }
+
+        /* Section Cards */
+        .panel {
+            background: var(--sf);
+            border: 1px solid var(--ln);
+            margin-bottom: 24px;
+            transition: border-color 0.25s var(--e);
+        }
+
+        .panel:hover {
+            border-color: var(--ln-hover);
+        }
+
+        .panel-head {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            background: #111110;
+            border-bottom: 1px solid var(--ln);
+            font: 700 12px var(--mo);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--mu);
         }
 
-        .input-icon {
-            position: absolute;
-            left: 16px;
-            color: var(--red);
-            font-size: 15px;
-            pointer-events: none;
+        .panel-head b {
+            color: var(--rd);
+            margin-right: 6px;
         }
 
-        .modern-input {
+        .panel-body {
+            padding: 24px 20px;
+        }
+
+        /* Target Input */
+        .input-row {
+            display: flex;
+            align-items: center;
+            background: #0A0A0A;
+            border: 1.5px solid var(--ln);
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+
+        .input-row:focus-within {
+            border-color: var(--rd);
+            box-shadow: 0 0 16px rgba(255, 0, 0, 0.25);
+        }
+
+        .input-prefix {
+            padding: 0 16px;
+            color: var(--rd);
+            font: 700 14px var(--mo);
+            user-select: none;
+        }
+
+        .target-input {
             width: 100%;
-            height: 48px;
-            padding: 10px 16px 10px 44px;
-            background: var(--bg);
-            border: 1px solid var(--line);
-            border-radius: var(--r);
+            height: 50px;
+            background: transparent;
+            border: none;
             color: var(--tx);
-            font: 500 14px var(--mono);
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .modern-input:focus {
+            font: 500 14px var(--mo);
+            padding: 10px 16px 10px 0;
             outline: none;
-            border-color: var(--red);
-            box-shadow: 0 0 0 2px rgba(255, 48, 63, 0.35);
         }
 
-        .input-hint {
+        .input-subtext {
+            margin-top: 10px;
+            font: 11.5px var(--mo);
+            color: var(--mu);
             display: flex;
             align-items: center;
             gap: 6px;
-            margin-top: 10px;
-            font: 400 12px var(--mono);
-            color: var(--tx2);
         }
 
-        .input-hint i {
-            color: var(--red);
+        .input-subtext b {
+            color: var(--ac);
         }
 
-        /* Scan Options Grid */
-        .options-grid {
+        /* Scan Module Grid */
+        .mod-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
         }
 
-        .option-card {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
+        .mod-card {
+            border: 1.5px solid var(--ln);
+            background: #0A0A0A;
             padding: 16px;
-            background: var(--bg);
-            border: 1px solid var(--line);
-            border-radius: var(--r);
             cursor: pointer;
-            transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+            transition: all 0.25s var(--e);
             position: relative;
             user-select: none;
         }
 
-        .option-card input[type="checkbox"] {
+        .mod-card input[type="checkbox"] {
             display: none;
         }
 
-        .option-card:hover {
-            border-color: rgba(255, 48, 63, 0.5);
-            background: var(--elev);
+        .mod-card:hover {
+            border-color: var(--rd);
+            background: var(--sf);
         }
 
-        .option-card.selected {
-            border-color: var(--red);
-            background: var(--elev);
-            box-shadow: 0 0 16px rgba(255, 48, 63, 0.15);
+        .mod-card.selected {
+            border-color: var(--rd);
+            background: #19090b;
+            box-shadow: 0 0 14px rgba(255, 0, 0, 0.15);
         }
 
-        .option-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: var(--r);
+        .mod-top {
             display: flex;
             align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--line);
-            color: var(--tx2);
-            font-size: 15px;
-            flex-shrink: 0;
-            transition: color 0.2s, border-color 0.2s, background 0.2s;
+            justify-content: space-between;
+            margin-bottom: 8px;
         }
 
-        .option-card.selected .option-icon {
-            background: rgba(255, 48, 63, 0.15);
-            border-color: var(--red);
-            color: var(--red);
+        .mod-tag {
+            font: 700 10px var(--mo);
+            letter-spacing: 0.1em;
+            color: var(--mu);
+            text-transform: uppercase;
         }
 
-        .option-content h4 {
-            font-size: 0.95rem;
-            font-weight: 700;
+        .mod-card.selected .mod-tag {
+            color: var(--rd);
+        }
+
+        .mod-title {
+            font: 22px/1 var(--dp);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
             color: var(--tx);
-            margin-bottom: 4px;
-            font-family: var(--disp);
+            margin-bottom: 6px;
         }
 
-        .option-content p {
-            font-size: 0.8rem;
-            color: var(--tx2);
+        .mod-desc {
+            font-size: 12.5px;
+            color: var(--mu);
             line-height: 1.4;
         }
 
-        /* Action Button */
-        .btn-launch {
-            width: 100%;
-            height: 52px;
-            display: flex;
+        /* Buttons (nayaka100 style) */
+        .bt {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            background: var(--red);
-            color: #080607;
-            border: 1px solid var(--red);
-            border-radius: var(--r);
-            font: 700 14px var(--mono);
+            gap: 0.6rem;
+            background: var(--rd);
+            color: #0A0A0A;
+            border: 2px solid var(--rd);
+            padding: 0.95rem 1.6rem;
+            font: 700 13px var(--mo);
             letter-spacing: 0.08em;
             text-transform: uppercase;
+            text-decoration: none;
+            min-height: 52px;
             cursor: pointer;
-            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
-            box-shadow: 0 4px 20px rgba(255, 48, 63, 0.35);
+            width: 100%;
+            box-sizing: border-box;
+            transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.2s var(--e);
         }
 
-        .btn-launch:hover:not(:disabled) {
-            background: var(--red-hover);
-            box-shadow: 0 6px 28px rgba(255, 48, 63, 0.55);
-            transform: translateY(-1px);
+        .bt:hover:not(:disabled) {
+            background: transparent;
+            color: var(--rd);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.35);
         }
 
-        .btn-launch:disabled {
-            opacity: 0.6;
+        .bt:disabled {
+            opacity: 0.45;
             cursor: not-allowed;
-            background: var(--crim);
-            border-color: var(--crim);
-            color: rgba(255, 255, 255, 0.6);
+            border-color: var(--ln);
+            background: var(--sf);
+            color: var(--mu);
         }
 
-        /* Progress Bar */
-        .progress-box {
-            padding: 24px;
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 8px;
+        .bt.o {
+            width: auto;
+            min-height: 42px;
+            padding: 0.6rem 1.2rem;
+            background: transparent;
+            color: var(--tx);
+            border-color: var(--ln);
+            font-size: 11.5px;
+        }
+
+        .bt.o:hover {
+            border-color: var(--rd);
+            color: var(--rd);
+            background: rgba(255, 0, 0, 0.08);
+        }
+
+        /* Progress Box */
+        .prog-panel {
+            background: #110809;
+            border: 1.5px solid var(--rd);
+            padding: 20px;
             margin-bottom: 24px;
         }
 
-        .progress-track {
-            height: 8px;
-            background: var(--bg);
-            border: 1px solid var(--line);
-            border-radius: 4px;
+        .prog-bar-wrap {
+            height: 6px;
+            background: #0A0A0A;
+            border: 1px solid var(--ln);
             overflow: hidden;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
-        .progress-fill {
+        .prog-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--crim) 0%, var(--red) 100%);
-            box-shadow: 0 0 12px rgba(255, 48, 63, 0.6);
+            background: var(--rd);
+            box-shadow: 0 0 12px var(--rd);
             width: 0%;
-            transition: width 0.4s ease;
+            transition: width 0.35s ease;
         }
 
-        .status-text {
-            font: 500 13px var(--mono);
-            color: var(--red);
+        .prog-msg {
+            font: 600 12.5px var(--mo);
+            color: var(--rd);
             display: flex;
             align-items: center;
             gap: 8px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
         }
 
-        /* Results Header */
-        .results-bar {
+        /* Results Display */
+        .meta-strip {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 24px;
-            background: var(--elev);
-            border-bottom: 1px solid var(--line);
             flex-wrap: wrap;
-            gap: 14px;
+            gap: 12px;
+            background: #111110;
+            border-bottom: 1px solid var(--ln);
+            padding: 12px 20px;
+            font: 12px var(--mo);
         }
 
-        .target-info-wrap {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            font: 500 13px var(--mono);
+        .meta-item b {
+            color: var(--mu);
+            font-weight: 400;
         }
 
-        .target-info-item span {
-            color: var(--tx2);
-        }
-
-        .target-info-item strong {
+        .meta-item span {
             color: var(--tx);
+            font-weight: 700;
         }
 
-        /* Stats Grid */
-        .stats-grid {
+        .meta-item .scan-chip {
+            color: var(--rd);
+        }
+
+        /* Metrics grid */
+        .metrics-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
+            gap: 10px;
             margin: 20px 0;
         }
 
         @media (max-width: 768px) {
-            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .metrics-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
-        .stat-card {
+        .metric-cell {
+            background: #0A0A0A;
+            border: 1px solid var(--ln);
+            padding: 16px 10px;
             text-align: center;
-            padding: 18px 12px;
-            border-radius: var(--r);
-            border: 1px solid var(--line);
-            background: var(--bg);
+            transition: border-color 0.2s;
+        }
+
+        .metric-cell.crit { border-top: 3px solid var(--rd); }
+        .metric-cell.high { border-top: 3px solid var(--warn); }
+        .metric-cell.med  { border-top: 3px solid #facc15; }
+        .metric-cell.low  { border-top: 3px solid var(--low); }
+        .metric-cell.info { border-top: 3px solid var(--ok); }
+
+        .metric-val {
+            font: clamp(28px, 4vw, 44px)/1 var(--dp);
+            margin-bottom: 4px;
+        }
+
+        .metric-val.crit { color: var(--rd); }
+        .metric-val.high { color: var(--warn); }
+        .metric-val.med  { color: #facc15; }
+        .metric-val.low  { color: var(--low); }
+        .metric-val.info { color: var(--ok); }
+
+        .metric-name {
+            font: 700 10.5px var(--mo);
+            color: var(--mu);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .export-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--ln);
+        }
+
+        /* Findings Cards */
+        .finding-item {
+            border: 1px solid var(--ln);
+            background: #0A0A0A;
+            padding: 18px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--mu);
             transition: transform 0.2s, border-color 0.2s;
         }
 
-        .stat-card:hover {
-            transform: translateY(-2px);
+        .finding-item:hover {
+            transform: translateX(3px);
+            border-color: var(--ln-hover);
         }
 
-        .stat-card.critical { border-color: rgba(255, 48, 63, 0.4); background: rgba(255, 48, 63, 0.08); }
-        .stat-card.high { border-color: rgba(255, 179, 71, 0.4); background: rgba(255, 179, 71, 0.08); }
-        .stat-card.medium { border-color: rgba(250, 204, 21, 0.4); background: rgba(250, 204, 21, 0.08); }
-        .stat-card.low { border-color: rgba(138, 180, 255, 0.4); background: rgba(138, 180, 255, 0.08); }
-        .stat-card.info { border-color: rgba(124, 255, 155, 0.4); background: rgba(124, 255, 155, 0.08); }
+        .finding-item.critical { border-left-color: var(--rd); }
+        .finding-item.high { border-left-color: var(--warn); }
+        .finding-item.medium { border-left-color: #facc15; }
+        .finding-item.low { border-left-color: var(--low); }
+        .finding-item.info { border-left-color: var(--ok); }
 
-        .stat-number {
-            font: 800 2rem var(--mono);
-            line-height: 1;
-        }
-
-        .stat-number.critical { color: var(--red); }
-        .stat-number.high { color: var(--warn); }
-        .stat-number.medium { color: #facc15; }
-        .stat-number.low { color: var(--low); }
-        .stat-number.info { color: var(--ok); }
-
-        .stat-label {
-            font: 600 11px var(--mono);
-            color: var(--tx2);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-top: 6px;
-        }
-
-        /* Download Buttons */
-        .download-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 16px;
-        }
-
-        .btn-download {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            background: var(--bg);
-            border: 1px solid var(--line);
-            border-radius: var(--r);
-            color: var(--tx);
-            font: 600 12px var(--mono);
-            letter-spacing: 0.04em;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-download:hover {
-            border-color: var(--red);
-            background: var(--elev);
-            color: var(--red);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(255, 48, 63, 0.2);
-        }
-
-        /* Finding Cards */
-        .finding-card {
-            border-radius: var(--r);
-            padding: 20px;
-            margin-bottom: 14px;
-            border: 1px solid var(--line);
-            border-left: 4px solid;
-            background: var(--bg);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .finding-card:hover {
-            transform: translateX(4px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-        }
-
-        .finding-card.critical { border-left-color: var(--red); }
-        .finding-card.high { border-left-color: var(--warn); }
-        .finding-card.medium { border-left-color: #facc15; }
-        .finding-card.low { border-left-color: var(--low); }
-        .finding-card.info { border-left-color: var(--ok); }
-
-        .finding-header {
+        .finding-top {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
+            gap: 10px;
+            margin-bottom: 8px;
         }
 
-        .severity-badge {
-            padding: 3px 9px;
-            border-radius: 3px;
-            font: 700 10px var(--mono);
+        .sev-tag {
+            font: 700 10.5px var(--mo);
             letter-spacing: 0.08em;
+            padding: 2px 8px;
             text-transform: uppercase;
         }
 
-        .severity-badge.critical { background: var(--red); color: #080607; }
-        .severity-badge.high { background: var(--warn); color: #080607; }
-        .severity-badge.medium { background: #facc15; color: #080607; }
-        .severity-badge.low { background: var(--low); color: #080607; }
-        .severity-badge.info { background: var(--ok); color: #080607; }
+        .sev-tag.critical { background: var(--rd); color: #0A0A0A; }
+        .sev-tag.high { background: var(--warn); color: #0A0A0A; }
+        .sev-tag.medium { background: #facc15; color: #0A0A0A; }
+        .sev-tag.low { background: var(--low); color: #0A0A0A; }
+        .sev-tag.info { background: var(--ok); color: #0A0A0A; }
 
         .finding-title {
-            font-weight: 700;
-            font-size: 1.05rem;
+            font: 20px/1.2 var(--dp);
+            letter-spacing: 0.02em;
             color: var(--tx);
+            text-transform: uppercase;
         }
 
         .finding-desc {
-            color: var(--tx2);
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .finding-type {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font: 500 11px var(--mono);
-            color: var(--tx2);
-            background: var(--elev);
-            border: 1px solid var(--line);
-            padding: 4px 10px;
-            border-radius: 3px;
-        }
-
-        .finding-type i {
-            color: var(--red);
-        }
-
-        .remediation-box {
-            background: rgba(124, 255, 155, 0.04);
-            border: 1px solid rgba(124, 255, 155, 0.25);
-            border-radius: var(--r);
-            padding: 14px 16px;
-            margin-top: 14px;
-        }
-
-        .remediation-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--ok);
-            font: 700 12px var(--mono);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-
-        .remediation-text {
-            color: var(--tx);
-            font-size: 13px;
+            font-size: 13.5px;
+            color: var(--mu);
+            margin: 8px 0;
             line-height: 1.5;
         }
 
-        /* History */
-        .history-item {
+        .finding-details-box {
+            font: 11px var(--mo);
+            color: var(--mu);
+            background: #141414;
+            border: 1px solid var(--ln);
+            padding: 8px 12px;
+            border-radius: 2px;
+            margin-top: 8px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 18px;
-            background: var(--bg);
-            border: 1px solid var(--line);
-            border-radius: var(--r);
-            margin-bottom: 10px;
-            transition: all 0.2s ease;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
-        .history-item:hover {
-            border-color: var(--red);
-            background: var(--elev);
-            transform: translateX(3px);
-        }
-
-        .history-url {
-            font: 600 14px var(--mono);
+        .finding-details-box strong {
             color: var(--tx);
         }
 
-        .history-meta {
-            font: 400 11px var(--mono);
-            color: var(--tx2);
-            margin-top: 4px;
+        .remed-box {
+            background: rgba(124, 255, 155, 0.05);
+            border: 1px solid rgba(124, 255, 155, 0.25);
+            padding: 12px 14px;
+            margin-top: 10px;
+            font-size: 13px;
         }
 
-        .history-stats {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font: 600 12px var(--mono);
-        }
-
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 3px;
-            font: 700 11px var(--mono);
+        .remed-box b {
+            font: 700 11px var(--mo);
+            color: var(--ok);
+            letter-spacing: 0.1em;
+            display: block;
+            margin-bottom: 4px;
             text-transform: uppercase;
         }
 
-        .status-badge.completed { background: rgba(124, 255, 155, 0.15); color: var(--ok); border: 1px solid rgba(124, 255, 155, 0.3); }
-        .status-badge.running { background: rgba(255, 48, 63, 0.15); color: var(--red); border: 1px solid rgba(255, 48, 63, 0.3); }
-        .status-badge.error { background: rgba(255, 48, 63, 0.2); color: var(--red); border: 1px solid var(--red); }
-
-        .hidden { display: none !important; }
-
-        .empty-state {
-            text-align: center;
-            padding: 36px 20px;
-            color: var(--tx2);
+        /* History List */
+        .history-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #0A0A0A;
+            border: 1px solid var(--ln);
+            margin-bottom: 8px;
+            transition: all 0.2s;
         }
 
-        .empty-state i {
-            font-size: 40px;
-            color: var(--line);
-            margin-bottom: 14px;
+        .history-row:hover {
+            border-color: var(--rd);
+            background: var(--sf2);
         }
 
-        .empty-state h3 {
-            font: 600 14px var(--mono);
+        .history-target {
+            font: 700 13px var(--mo);
             color: var(--tx);
-            margin-bottom: 6px;
         }
 
-        .empty-state p {
-            font-size: 13px;
-            color: var(--tx2);
+        .history-date {
+            font: 11px var(--mo);
+            color: var(--mu);
+            margin-top: 2px;
+        }
+
+        .history-counts {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font: 600 11px var(--mo);
+        }
+
+        .empty-placeholder {
+            text-align: center;
+            padding: 40px 16px;
+            color: var(--mu);
+            font: 13px var(--mo);
+        }
+
+        .empty-placeholder i {
+            font-size: 32px;
+            color: var(--ln);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* Fixed HUD Bar (from nayaka100.in) */
+        #hud {
+            position: fixed;
+            left: 1rem;
+            bottom: 0.8rem;
+            background: rgba(10, 10, 10, 0.92);
+            border: 1px solid var(--ln);
+            padding: 0.35rem 0.75rem;
+            z-index: 55;
+            font: 10.5px var(--mo);
+            letter-spacing: 0.08em;
+            color: var(--mu);
+            pointer-events: none;
+            text-transform: uppercase;
+        }
+
+        #hud b {
+            color: var(--tx);
+            font-weight: 700;
+        }
+
+        #hud i {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--rd);
+            margin-right: 6px;
+            animation: bl 1.2s steps(2) infinite;
         }
 
         /* Footer */
-        .app-footer {
-            margin-top: 48px;
+        .footer {
+            margin-top: 50px;
             padding-top: 24px;
-            border-top: 1px solid var(--line);
-            text-align: center;
-            color: var(--tx2);
-            font: 400 12px var(--mono);
+            border-top: 1px solid var(--ln);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            font: 11.5px var(--mo);
+            color: var(--mu);
         }
 
-        .app-footer .foot-tag {
-            color: var(--red);
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            margin-bottom: 6px;
-        }
-
-        .app-footer strong {
+        .footer strong {
             color: var(--tx);
         }
+
+        .footer a {
+            color: var(--rd);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <!-- App Header -->
+    <!-- Scanline -->
+    <div id="sl"></div>
+
+    <!-- Top Navigation -->
+    <nav class="nv">
+        <a href="/" class="lg">
+            <span>KAVALU</span><em>//</em><span>ENGINE</span>
+        </a>
+        <div class="nv-badges">
+            <span class="tg r">LIVE ENGINE</span>
+            <span class="tg ac">SECURE AUDIT</span>
+        </div>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="main-container">
+        <!-- Hero Header -->
         <header class="app-header">
-            <div class="brand-pill">
-                <span class="pulse-dot"></span>
-                <span>KAVALU LABS // SECURITY TESTING PLATFORM</span>
-            </div>
-            <h1>Kavalu Labs Tester <em>Platform</em></h1>
-            <p>Advanced vulnerability discovery, evidence analysis & automated security testing powered by Requests, Selenium & Burp Suite.</p>
-            <div class="author-badge">
-                <span>[ ARCHITECT & SECURITY RESEARCH ]</span>
+            <p class="lb"><b>00</b> // ARCHITECTURE SPECIFICATION</p>
+            <h1>Kavalu Labs <span>Security Engine</span></h1>
+            <p>Automated attack surface intelligence, vulnerability probing, and verification testing built on Requests, Selenium, and Burp Suite.</p>
+            <div class="arch-badge">
+                <span class="dot"></span>
+                <span>ENGINE ARCHITECT:</span>
                 <strong>Vinayaka N Walishettar</strong>
             </div>
         </header>
 
-        <!-- Step 1: Target URL -->
-        <section class="glass-card">
-            <div class="section-header">
-                <div class="section-number">01</div>
-                <div class="section-title">Target Specification</div>
+        <!-- 01: Target Specification -->
+        <section class="panel">
+            <div class="panel-head">
+                <span><b>01</b> TARGET HOST SPECIFICATION</span>
+                <span class="tg">ENDPOINT ENTRY</span>
             </div>
-            <div class="card-body">
-                <div class="input-wrapper">
-                    <i class="fas fa-crosshairs input-icon"></i>
-                    <input type="url" id="targetUrl" class="modern-input" 
+            <div class="panel-body">
+                <div class="input-row">
+                    <span class="input-prefix">URI:</span>
+                    <input type="url" id="targetUrl" class="target-input" 
                            placeholder="https://example.com" 
                            value="http://testphp.vulnweb.com">
                 </div>
-                <div class="input-hint">
+                <p class="input-subtext">
                     <i class="fas fa-terminal"></i>
-                    Enter full target URL including http:// or https:// protocol
-                </div>
+                    Target endpoint must include <b>http://</b> or <b>https://</b> protocol schema.
+                </p>
             </div>
         </section>
 
-        <!-- Step 2: Scan Options -->
-        <section class="glass-card">
-            <div class="section-header">
-                <div class="section-number">02</div>
-                <div class="section-title">Assessment Modules</div>
+        <!-- 02: Scan Modules -->
+        <section class="panel">
+            <div class="panel-head">
+                <span><b>02</b> AUDIT MODULE SELECTION</span>
+                <span class="tg">4 PROBES CONFIGURED</span>
             </div>
-            <div class="card-body">
-                <div class="options-grid">
-                    <label class="option-card selected" onclick="toggleOption(this)">
+            <div class="panel-body">
+                <div class="mod-grid">
+                    <label class="mod-card selected" onclick="toggleOption(this)">
                         <input type="checkbox" id="checkRecon" checked>
-                        <div class="option-icon">
-                            <i class="fas fa-radar"></i>
+                        <div class="mod-top">
+                            <span class="mod-tag">RECONNAISSANCE</span>
+                            <span class="tg">TCP/HTTP</span>
                         </div>
-                        <div class="option-content">
-                            <h4>Reconnaissance</h4>
-                            <p>Detect server info, headers, technology stack & SSL</p>
-                        </div>
+                        <div class="mod-title">SURFACE RECON</div>
+                        <p class="mod-desc">Headers, server tech stack, SSL/TLS certificates and TLS cipher negotiation.</p>
                     </label>
 
-                    <label class="option-card selected" onclick="toggleOption(this)">
+                    <label class="mod-card selected" onclick="toggleOption(this)">
                         <input type="checkbox" id="checkVuln" checked>
-                        <div class="option-icon">
-                            <i class="fas fa-bug"></i>
+                        <div class="mod-top">
+                            <span class="mod-tag">EXPLOIT PROBES</span>
+                            <span class="tg">PAYLOADS</span>
                         </div>
-                        <div class="option-content">
-                            <h4>Vulnerabilities</h4>
-                            <p>Probe SQL injection, XSS reflection, SSRF & exposed files</p>
-                        </div>
+                        <div class="mod-title">VULN DISCOVERY</div>
+                        <p class="mod-desc">Active probing for SQL injection, reflected XSS, SSRF, open redirects & leaks.</p>
                     </label>
 
-                    <label class="option-card" onclick="toggleOption(this)">
+                    <label class="mod-card" onclick="toggleOption(this)">
                         <input type="checkbox" id="checkBrowser">
-                        <div class="option-icon">
-                            <i class="fas fa-window-maximize"></i>
+                        <div class="mod-top">
+                            <span class="mod-tag">BROWSER DYNAMICS</span>
+                            <span class="tg">SELENIUM</span>
                         </div>
-                        <div class="option-content">
-                            <h4>Headless Browser</h4>
-                            <p>Selenium dynamic DOM crawling & client-side scripts</p>
-                        </div>
+                        <div class="mod-title">DOM AUTOMATION</div>
+                        <p class="mod-desc">Headless browser rendering for single-page apps, DOM XSS & client scripts.</p>
                     </label>
 
-                    <label class="option-card" onclick="toggleOption(this)">
+                    <label class="mod-card" onclick="toggleOption(this)">
                         <input type="checkbox" id="checkBurp">
-                        <div class="option-icon">
-                            <i class="fas fa-network-wired"></i>
+                        <div class="mod-top">
+                            <span class="mod-tag">EXTERNAL SUITE</span>
+                            <span class="tg">BURP PROXY</span>
                         </div>
-                        <div class="option-content">
-                            <h4>Burp Suite</h4>
-                            <p>Forward scan targets via Burp REST API & proxy engine</p>
-                        </div>
+                        <div class="mod-title">BURP INTEGRATION</div>
+                        <p class="mod-desc">Forward target endpoints to local/remote Burp Suite REST API proxy.</p>
                     </label>
                 </div>
             </div>
         </section>
 
-        <!-- Step 3: Launch Scan -->
+        <!-- 03: Launch Action -->
         <div style="margin-bottom: 24px;">
-            <button id="scanBtn" class="btn-launch" onclick="startScan()">
-                <i class="fas fa-shield-virus"></i>
-                <span>Initialize Security Assessment</span>
+            <button id="scanBtn" class="bt" onclick="startScan()">
+                <i class="fas fa-crosshairs"></i>
+                <span>INITIALIZE SECURITY ASSESSMENT ➔</span>
             </button>
         </div>
 
-        <!-- Loading / Progress Section -->
-        <div id="loadingSection" class="progress-box hidden">
-            <div class="progress-track">
-                <div class="progress-fill" id="progressBar"></div>
+        <!-- Live Progress Feedback -->
+        <div id="loadingSection" class="prog-panel hidden">
+            <div class="prog-bar-wrap">
+                <div class="prog-fill" id="progressBar"></div>
             </div>
-            <div class="status-text">
-                <i class="fas fa-circle-notch fa-spin"></i>
-                <span id="scanStatus">Initializing audit probes...</span>
+            <div class="prog-msg">
+                <i class="fas fa-spinner fa-spin"></i>
+                <span id="scanStatus">INITIALIZING SECURITY PROBES...</span>
             </div>
         </div>
 
-        <!-- Results Section -->
-        <div id="resultsSection" class="hidden">
-            <div class="glass-card">
-                <div class="results-bar">
-                    <div class="target-info-wrap">
-                        <div class="target-info-item"><span>TARGET:</span> <strong id="resultTarget">-</strong></div>
-                        <div class="target-info-item"><span>SCAN ID:</span> <strong id="resultScanId" style="color: var(--red);">-</strong></div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <div class="stats-grid">
-                        <div class="stat-card critical">
-                            <div class="stat-number critical" id="statCritical">0</div>
-                            <div class="stat-label">Critical</div>
-                        </div>
-                        <div class="stat-card high">
-                            <div class="stat-number high" id="statHigh">0</div>
-                            <div class="stat-label">High</div>
-                        </div>
-                        <div class="stat-card medium">
-                            <div class="stat-number medium" id="statMedium">0</div>
-                            <div class="stat-label">Medium</div>
-                        </div>
-                        <div class="stat-card low">
-                            <div class="stat-number low" id="statLow">0</div>
-                            <div class="stat-label">Low</div>
-                        </div>
-                        <div class="stat-card info">
-                            <div class="stat-number info" id="statInfo">0</div>
-                            <div class="stat-label">Info</div>
-                        </div>
-                    </div>
-
-                    <div class="download-buttons">
-                        <button class="btn-download" onclick="downloadReport('pdf')">
-                            <i class="fas fa-file-pdf" style="color: var(--red);"></i>
-                            <span>DOWNLOAD PDF</span>
-                        </button>
-                        <button class="btn-download" onclick="downloadReport('html')">
-                            <i class="fas fa-file-code" style="color: var(--warn);"></i>
-                            <span>VIEW HTML</span>
-                        </button>
-                        <button class="btn-download" onclick="downloadReport('json')">
-                            <i class="fas fa-file-alt" style="color: var(--ok);"></i>
-                            <span>EXPORT JSON</span>
-                        </button>
-                    </div>
-                </div>
+        <!-- 04: Assessment Findings Section -->
+        <section id="resultsSection" class="panel hidden">
+            <div class="panel-head">
+                <span><b>03</b> ASSESSMENT FINDINGS & METRICS</span>
+                <span class="tg r">LIVE TELEMETRY</span>
             </div>
 
-            <!-- Findings List -->
-            <section class="glass-card">
-                <div class="section-header">
-                    <div class="section-number"><i class="fas fa-shield-alt" style="font-size: 11px;"></i></div>
-                    <div class="section-title">Assessment Findings & Evidence</div>
-                </div>
-                <div class="card-body">
-                    <div id="findingsList"></div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Recent Scans History -->
-        <section class="glass-card">
-            <div class="section-header">
-                <div class="section-number"><i class="fas fa-history" style="font-size: 11px;"></i></div>
-                <div class="section-title">Historical Scan Audits</div>
+            <div class="meta-strip">
+                <div class="meta-item"><b>TARGET:</b> <span id="resultTarget">-</span></div>
+                <div class="meta-item"><b>SCAN ID:</b> <span id="resultScanId" class="scan-chip">-</span></div>
             </div>
-            <div class="card-body">
+
+            <div class="panel-body">
+                <div class="metrics-grid">
+                    <div class="metric-cell crit">
+                        <div class="metric-val crit" id="statCritical">0</div>
+                        <div class="metric-name">CRITICAL</div>
+                    </div>
+                    <div class="metric-cell high">
+                        <div class="metric-val high" id="statHigh">0</div>
+                        <div class="metric-name">HIGH</div>
+                    </div>
+                    <div class="metric-cell med">
+                        <div class="metric-val med" id="statMedium">0</div>
+                        <div class="metric-name">MEDIUM</div>
+                    </div>
+                    <div class="metric-cell low">
+                        <div class="metric-val low" id="statLow">0</div>
+                        <div class="metric-name">LOW</div>
+                    </div>
+                    <div class="metric-cell info">
+                        <div class="metric-val info" id="statInfo">0</div>
+                        <div class="metric-name">INFO</div>
+                    </div>
+                </div>
+
+                <div class="export-actions">
+                    <button class="bt o" onclick="downloadReport('pdf')">
+                        <i class="fas fa-file-pdf" style="color: var(--rd);"></i>
+                        <span>DOWNLOAD PDF REPORT</span>
+                    </button>
+                    <button class="bt o" onclick="downloadReport('html')">
+                        <i class="fas fa-file-code" style="color: var(--warn);"></i>
+                        <span>VIEW HTML REPORT</span>
+                    </button>
+                    <button class="bt o" onclick="downloadReport('json')">
+                        <i class="fas fa-file-alt" style="color: var(--ok);"></i>
+                        <span>EXPORT JSON DATA</span>
+                    </button>
+                </div>
+
+                <div id="findingsList" style="margin-top: 24px;"></div>
+            </div>
+        </section>
+
+        <!-- 05: Historical Audit Logs -->
+        <section class="panel">
+            <div class="panel-head">
+                <span><b>04</b> HISTORICAL AUDIT LOGS</span>
+                <span class="tg">PERSISTED SCANS</span>
+            </div>
+            <div class="panel-body">
                 <div id="historyList">
-                    <div class="empty-state">
-                        <i class="fas fa-clipboard-check"></i>
-                        <h3>NO AUDIT LOGS RECORDED</h3>
-                        <p>Launch an assessment above to capture target findings and telemetry</p>
+                    <div class="empty-placeholder">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>NO AUDIT LOGS RECORDED. RUN A SCAN TO INITIALIZE TELEMETRY.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer class="app-footer">
-            <p class="foot-tag">[ ARCHITECT & SECURITY RESEARCH ]</p>
-            <p style="margin-bottom: 4px;"><strong>Vinayaka N Walishettar</strong></p>
-            <p style="color: var(--tx2); font-size: 11px;">Kavalu Labs Tester Platform · All security findings delivered under formal authorization</p>
+        <footer class="footer">
+            <div>
+                [ ARCHITECT & SECURITY RESEARCH ] · <strong>Vinayaka N Walishettar</strong>
+            </div>
+            <div>
+                PORTFOLIO: <a href="https://www.nayaka100.in/" target="_blank" rel="noopener noreferrer">nayaka100.in ↗</a>
+            </div>
         </footer>
+    </main>
+
+    <!-- Fixed HUD (nayaka100 telemetry style) -->
+    <div id="hud">
+        <i></i>ENGINE: <b>ONLINE</b> · PORT: <b>5000</b> · KAVALU LABS
     </div>
 
     <script>
         let currentScanId = null;
         let statusCheckInterval = null;
+
+        // Dynamic backend URL resolver:
+        // If served from Flask on port 5000, use relative path ''.
+        // If served on port 3000 (Live Server), 5500, or file://, automatically point to Flask on port 5000!
+        function getBackendUrl() {
+            if (window.location.protocol === 'file:') {
+                return 'http://127.0.0.1:5000';
+            }
+            const port = window.location.port;
+            if (port === '5000' || (!port && (window.location.protocol === 'http:' || window.location.protocol === 'https:'))) {
+                return '';
+            }
+            return 'http://127.0.0.1:5000';
+        }
+        const BACKEND_URL = getBackendUrl();
 
         function toggleOption(element) {
             const checkbox = element.querySelector('input');
@@ -876,14 +946,16 @@
         }
 
         async function startScan() {
-            const url = document.getElementById('targetUrl').value.trim();
+            const urlInput = document.getElementById('targetUrl');
+            const url = urlInput ? urlInput.value.trim() : '';
+
             if (!url) {
-                alert('Please enter a target URL');
+                alert('Target endpoint required. Please enter a valid URL.');
                 return;
             }
 
             if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                alert('URL must start with http:// or https://');
+                alert('Invalid URL scheme. Target URL must begin with http:// or https://');
                 return;
             }
 
@@ -893,21 +965,27 @@
             if (document.getElementById('checkBrowser').checked) scanTypes.push('browser');
 
             if (scanTypes.length === 0) {
-                alert('Please select at least one scan option');
+                alert('Select at least one assessment probe module to initialize audit.');
                 return;
             }
 
             const useBurp = document.getElementById('checkBurp').checked;
+            const scanBtn = document.getElementById('scanBtn');
+            const loadingSection = document.getElementById('loadingSection');
+            const resultsSection = document.getElementById('resultsSection');
+            const progressBar = document.getElementById('progressBar');
+            const scanStatus = document.getElementById('scanStatus');
 
-            document.getElementById('loadingSection').classList.remove('hidden');
-            document.getElementById('resultsSection').classList.add('hidden');
-            document.getElementById('scanBtn').disabled = true;
-            document.getElementById('progressBar').style.width = '10%';
+            loadingSection.classList.remove('hidden');
+            resultsSection.classList.add('hidden');
+            scanBtn.disabled = true;
+            progressBar.style.width = '10%';
+            scanStatus.textContent = 'CONNECTING TO KAVALU LABS ENGINE...';
 
             try {
-                const response = await fetch('/api/scan', {
+                const response = await fetch(`${BACKEND_URL}/api/scan`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         url: url,
                         scan_types: scanTypes,
@@ -916,6 +994,12 @@
                     })
                 });
 
+                const contentType = response.headers.get('content-type') || '';
+                if (!contentType.includes('application/json')) {
+                    const text = await response.text();
+                    throw new Error(`Connected to ${window.location.host}, but the Flask security engine is not running on port 5000. Start backend with: python app.py`);
+                }
+
                 const data = await response.json();
 
                 if (data.error) {
@@ -923,32 +1007,39 @@
                 }
 
                 currentScanId = data.scan_id;
-                document.getElementById('scanStatus').textContent = 'Security probes initialized...';
-                document.getElementById('progressBar').style.width = '25%';
+                scanStatus.textContent = 'ASSESSMENT PROBES ACTIVE · EXECUTING TELEMETRY...';
+                progressBar.style.width = '25%';
 
+                if (statusCheckInterval) clearInterval(statusCheckInterval);
                 statusCheckInterval = setInterval(() => checkScanStatus(currentScanId), 2000);
 
             } catch (error) {
-                alert('Scan initialization failed: ' + error.message);
-                document.getElementById('loadingSection').classList.add('hidden');
-                document.getElementById('scanBtn').disabled = false;
+                alert('Scan Initialization Failed: ' + error.message);
+                loadingSection.classList.add('hidden');
+                scanBtn.disabled = false;
             }
         }
 
         async function checkScanStatus(scanId) {
             try {
-                const response = await fetch(`/api/scan/status/${scanId}`);
+                const response = await fetch(`${BACKEND_URL}/api/scan/status/${scanId}`);
+                const contentType = response.headers.get('content-type') || '';
+
+                if (!contentType.includes('application/json')) {
+                    return;
+                }
+
                 const data = await response.json();
 
                 if (data.error) {
                     throw new Error(data.error);
                 }
 
-                const statusMsg = data.current_message || 'Assessment probe in progress...';
-                document.getElementById('scanStatus').textContent = statusMsg;
+                const statusMsg = data.current_message || 'ASSESSMENT PROBE IN PROGRESS...';
+                document.getElementById('scanStatus').textContent = statusMsg.toUpperCase();
 
                 let progress = 25;
-                if (data.status === 'running') progress = 60;
+                if (data.status === 'running') progress = 65;
                 if (data.status === 'completed') progress = 100;
                 document.getElementById('progressBar').style.width = progress + '%';
 
@@ -960,22 +1051,23 @@
                     if (data.status === 'completed') {
                         displayResults(data);
                     } else {
-                        alert('Scan error: ' + (data.error || 'Unknown error'));
+                        alert('Scan Error: ' + (data.error || 'Execution encountered an anomaly'));
                     }
 
                     loadHistory();
                 }
 
             } catch (error) {
-                console.error('Status check failed:', error);
+                console.error('Status check probe error:', error);
             }
         }
 
         function displayResults(data) {
-            document.getElementById('resultsSection').classList.remove('hidden');
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.classList.remove('hidden');
 
             document.getElementById('resultTarget').textContent = data.target_url;
-            document.getElementById('resultScanId').textContent = data.scan_id.substring(0, 8);
+            document.getElementById('resultScanId').textContent = (data.scan_id || '').substring(0, 8);
 
             const stats = data.stats || {};
             document.getElementById('statCritical').textContent = stats.critical || 0;
@@ -988,15 +1080,14 @@
             findingsList.innerHTML = '';
 
             const findings = data.findings || [];
-            const severityOrder = {critical: 0, high: 1, medium: 2, low: 3, info: 4};
-            findings.sort((a, b) => severityOrder[a.severity] - severityOrder[b.severity]);
+            const severityOrder = { critical: 0, high: 1, medium: 2, low: 3, info: 4 };
+            findings.sort((a, b) => (severityOrder[a.severity] ?? 5) - (severityOrder[b.severity] ?? 5));
 
             if (findings.length === 0) {
                 findingsList.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-shield-check" style="color: var(--ok);"></i>
-                        <h3>NO CRITICAL ANOMALIES IDENTIFIED</h3>
-                        <p>The assessment completed with no immediate high-risk security flaws recorded for this host.</p>
+                    <div class="empty-placeholder">
+                        <i class="fas fa-shield-alt" style="color: var(--ok);"></i>
+                        <p style="color: var(--ok); font-weight: 700;">NO CRITICAL VULNERABILITIES DETECTED ON PUBLIC SURFACE.</p>
                     </div>
                 `;
                 return;
@@ -1004,17 +1095,15 @@
 
             findings.forEach((finding) => {
                 const div = document.createElement('div');
-                div.className = `finding-card ${finding.severity}`;
+                const sev = (finding.severity || 'info').toLowerCase();
+                div.className = `finding-item ${sev}`;
 
                 let remediationHtml = '';
                 if (finding.remediation) {
                     remediationHtml = `
-                        <div class="remediation-box">
-                            <div class="remediation-header">
-                                <i class="fas fa-check-circle"></i>
-                                Remediation Advisory
-                            </div>
-                            <div class="remediation-text">${finding.remediation}</div>
+                        <div class="remed-box">
+                            <b>REMEDIATION ADVISORY</b>
+                            ${finding.remediation}
                         </div>
                     `;
                 }
@@ -1025,19 +1114,19 @@
                         .slice(0, 4)
                         .map(([k, v]) => {
                             const val = typeof v === 'object' ? JSON.stringify(v).substring(0, 60) : String(v).substring(0, 60);
-                            return `<span class="finding-type"><strong style="color:var(--tx);">${k}:</strong> ${val}</span>`;
+                            return `<span><strong>${k}:</strong> ${val}</span>`;
                         })
-                        .join(' ');
-                    detailsHtml = `<div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px;">${detailItems}</div>`;
+                        .join(' · ');
+                    detailsHtml = `<div class="finding-details-box">${detailItems}</div>`;
                 }
 
                 div.innerHTML = `
-                    <div class="finding-header">
-                        <span class="severity-badge ${finding.severity}">${finding.severity}</span>
-                        <span class="finding-title">${finding.title}</span>
+                    <div class="finding-top">
+                        <span class="sev-tag ${sev}">${sev}</span>
+                        <span class="tg" style="font-size: 10px;">${finding.type || 'CHECK'}</span>
                     </div>
-                    <div class="finding-desc">${finding.description}</div>
-                    <span class="finding-type"><i class="fas fa-tag"></i> ${finding.type}</span>
+                    <div class="finding-title">${finding.title}</div>
+                    <div class="finding-desc">${finding.description || ''}</div>
                     ${detailsHtml}
                     ${remediationHtml}
                 `;
@@ -1045,30 +1134,31 @@
                 findingsList.appendChild(div);
             });
 
-            document.getElementById('resultsSection').scrollIntoView({behavior: 'smooth'});
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
         }
 
         async function downloadReport(format) {
             if (!currentScanId) {
-                alert('No active scan report available');
+                alert('No active scan report ID available');
                 return;
             }
-            window.open(`/api/report/${currentScanId}?format=${format}`, '_blank');
+            window.open(`${BACKEND_URL}/api/report/${currentScanId}?format=${format}`, '_blank');
         }
 
         async function loadHistory() {
             try {
-                const response = await fetch('/api/history');
-                const history = await response.json();
+                const response = await fetch(`${BACKEND_URL}/api/history`);
+                const contentType = response.headers.get('content-type') || '';
+                if (!contentType.includes('application/json')) return;
 
+                const history = await response.json();
                 const historyList = document.getElementById('historyList');
 
                 if (!history || history.length === 0) {
                     historyList.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-clipboard-check"></i>
-                            <h3>NO AUDIT LOGS RECORDED</h3>
-                            <p>Launch an assessment above to capture target findings and telemetry</p>
+                        <div class="empty-placeholder">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p>NO AUDIT LOGS RECORDED. RUN A SCAN TO INITIALIZE TELEMETRY.</p>
                         </div>
                     `;
                     return;
@@ -1076,26 +1166,23 @@
 
                 historyList.innerHTML = history.slice(-5).reverse().map(scan => {
                     const stats = scan.stats || {};
-                    const statusClass = scan.status === 'completed' ? 'completed' : 
-                                       scan.status === 'error' ? 'error' : 'running';
-
                     return `
-                        <div class="history-item">
+                        <div class="history-row">
                             <div>
-                                <div class="history-url">${scan.target_url}</div>
-                                <div class="history-meta">${new Date(scan.start_time).toLocaleString()}</div>
+                                <div class="history-target">${scan.target_url}</div>
+                                <div class="history-date">${new Date(scan.start_time).toLocaleString()}</div>
                             </div>
-                            <div class="history-stats">
-                                <span style="color: var(--red);">${stats.critical || 0} Crit</span>
-                                <span style="color: var(--warn);">${stats.high || 0} High</span>
-                                <span class="status-badge ${statusClass}">${scan.status}</span>
+                            <div class="history-counts">
+                                <span style="color: var(--rd);">${stats.critical || 0} CRIT</span>
+                                <span style="color: var(--warn);">${stats.high || 0} HIGH</span>
+                                <span class="tg r" style="font-size: 9.5px;">${scan.status.toUpperCase()}</span>
                             </div>
                         </div>
                     `;
                 }).join('');
 
             } catch (error) {
-                console.error('Failed to load history:', error);
+                console.error('History load probe error:', error);
             }
         }
 

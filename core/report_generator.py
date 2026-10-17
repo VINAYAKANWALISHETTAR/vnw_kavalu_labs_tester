@@ -98,7 +98,7 @@ class ReportGenerator:
         )
         
         # Title
-        elements.append(Paragraph("Web Application Security Report", title_style))
+        elements.append(Paragraph("Kavalu Labs Security Engine — Security Report", title_style))
         elements.append(Spacer(1, 0.2*inch))
         
         # Executive Summary
@@ -331,7 +331,7 @@ class ReportGenerator:
 <body>
     <div class="container">
         <div class="header">
-            <h1>Web Application Security Report</h1>
+            <h1>Kavalu Labs Security Engine — Security Report</h1>
             <p>Target: {scan_data.get('target_url', 'Unknown')}</p>
             <p>Developed by: <strong>Vinayaka N Walishettar</strong></p>
             <p>Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
