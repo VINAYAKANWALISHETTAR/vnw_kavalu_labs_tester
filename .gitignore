@@ -9,6 +9,12 @@ venv/
 env/
 ENV/
 
+# Generated scan outputs and runtime logs
+reports/*
+!reports/.gitkeep
+logs/*
+!logs/.gitkeep
+
 # IDE and OS files
 .DS_Store
 Thumbs.db

@@ -7,21 +7,16 @@ Developed by Vinayaka N Walishettar
 
 __author__ = "Vinayaka N Walishettar"
 
-from flask import Flask, render_template, request, jsonify, send_file, send_from_directory
+from flask import Flask, render_template, request, jsonify, send_file
 from datetime import datetime
 import json
 import os
 from core.scanner import SecurityScanner
 from core.report_generator import ReportGenerator
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 app.config['SECRET_KEY'] = 'your-secret-key-here'
 scanner = SecurityScanner()
-
-@app.route('/fonts/<path:filename>')
-def serve_fonts(filename):
-    """Serve local font assets."""
-    return send_from_directory(os.path.join(app.root_path, 'fonts'), filename)
 
 @app.route('/')
 def index():
