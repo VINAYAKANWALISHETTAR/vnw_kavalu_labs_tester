@@ -1,889 +1,793 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Application Security Tester — By Vinayaka N Walishettar</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Kavalu Labs Tester Platform — By Vinayaka N Walishettar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-light: #818cf8;
-            --critical: #ef4444;
-            --high: #f97316;
-            --medium: #eab308;
-            --low: #22c55e;
-            --info: #3b82f6;
-            --bg-gradient-start: #0f172a;
-            --bg-gradient-end: #1e293b;
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --border-color: #e2e8f0;
+            --bg: #080607;
+            --panel: #110B0D;
+            --elev: #1A0D11;
+            --red: #FF303F;
+            --red-hover: #ff5561;
+            --crim: #8F1024;
+            --crim-dark: #450912;
+            --tx: #F5EDEF;
+            --tx2: #A99BA0;
+            --line: #3a1219;
+            --line2: #241417;
+            --ok: #7CFF9B;
+            --warn: #FFB347;
+            --low: #8AB4FF;
+            --info: #8AB4FF;
+            --disp: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+            --r: 6px;
         }
-        
-        [data-theme="dark"] {
-            --bg-gradient-start: #020617;
-            --bg-gradient-end: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.95);
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --border-color: #334155;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--disp);
         }
-        
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: 'Inter', sans-serif;
-        }
-        
+
         body {
-            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            background: var(--bg);
+            color: var(--tx);
             min-height: 100vh;
-            transition: all 0.3s ease;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(143, 16, 36, 0.25) 0%, transparent 60%),
+                linear-gradient(rgba(255, 48, 63, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 48, 63, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 32px 32px, 32px 32px;
+            background-position: 0 0, -1px -1px, -1px -1px;
         }
-        
+
         .main-container {
-            max-width: 1100px;
+            max-width: 1080px;
             margin: 0 auto;
-            padding: 24px;
+            padding: 32px 20px 48px;
         }
-        
-        /* Glass Card */
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            margin-bottom: 24px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        [data-theme="dark"] .glass-card {
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-        
-        .glass-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Header */
+
+        /* Tactical Header */
         .app-header {
             text-align: center;
-            padding: 40px 20px 32px;
+            padding: 24px 16px 36px;
             position: relative;
         }
-        
-        .app-header h1 {
-            font-size: 2.75rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 12px;
-            letter-spacing: -0.02em;
-        }
-        
-        .app-header p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            font-weight: 400;
-        }
-        
-        /* Theme Toggle */
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            padding: 10px 16px;
-            cursor: pointer;
-            color: var(--text-primary);
-            font-size: 14px;
-            transition: all 0.3s ease;
-            display: flex;
+
+        .brand-pill {
+            display: inline-flex;
             align-items: center;
             gap: 8px;
+            padding: 4px 14px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 50px;
+            color: var(--red);
+            font: 600 11px var(--mono);
+            letter-spacing: 0.12em;
+            margin-bottom: 16px;
         }
-        
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
+
+        .brand-pill .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--red);
+            border-radius: 50px;
+            box-shadow: 0 0 10px var(--red);
+            animation: pulseDot 2s infinite;
         }
-        
-        /* Section Headers */
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        .app-header h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            color: var(--tx);
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+        }
+
+        .app-header h1 em {
+            font-style: normal;
+            color: var(--red);
+            text-shadow: 0 0 25px rgba(255, 48, 63, 0.45);
+        }
+
+        .app-header p {
+            color: var(--tx2);
+            font-size: 1rem;
+            max-width: 650px;
+            margin: 0 auto 16px;
+        }
+
+        .author-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(255, 48, 63, 0.06);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            font: 500 12px var(--mono);
+            color: var(--tx2);
+        }
+
+        .author-badge strong {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        /* Tactical Cards */
+        .glass-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.85);
+            margin-bottom: 24px;
+            overflow: hidden;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 48, 63, 0.4);
+            box-shadow: 0 16px 40px -10px rgba(255, 48, 63, 0.12);
+        }
+
         .section-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 24px 28px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
-            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px;
+            background: var(--elev);
+            border-bottom: 1px solid var(--line);
         }
-        
+
         .section-number {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border-radius: 12px;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            width: 26px;
+            height: 26px;
+            background: rgba(255, 48, 63, 0.12);
+            border: 1px solid var(--red);
+            border-radius: var(--r);
+            color: var(--red);
+            font: 700 12px var(--mono);
         }
-        
+
         .section-title {
-            font-size: 1.25rem;
+            font-size: 1rem;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--tx);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-family: var(--mono);
         }
-        
+
         .card-body {
-            padding: 28px;
+            padding: 24px;
         }
-        
-        /* Input Styles */
+
+        /* Inputs */
         .input-wrapper {
             position: relative;
+            display: flex;
+            align-items: center;
         }
-        
-        .modern-input {
-            width: 100%;
-            padding: 16px 20px 16px 52px;
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--text-primary);
-            background: var(--card-bg);
-            transition: all 0.3s ease;
-        }
-        
-        .modern-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        }
-        
+
         .input-icon {
             position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary);
-            font-size: 20px;
+            left: 16px;
+            color: var(--red);
+            font-size: 15px;
+            pointer-events: none;
         }
-        
+
+        .modern-input {
+            width: 100%;
+            height: 48px;
+            padding: 10px 16px 10px 44px;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            color: var(--tx);
+            font: 500 14px var(--mono);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .modern-input:focus {
+            outline: none;
+            border-color: var(--red);
+            box-shadow: 0 0 0 2px rgba(255, 48, 63, 0.35);
+        }
+
         .input-hint {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             margin-top: 10px;
-            color: var(--text-secondary);
-            font-size: 13px;
+            font: 400 12px var(--mono);
+            color: var(--tx2);
         }
-        
-        /* Option Cards */
+
+        .input-hint i {
+            color: var(--red);
+        }
+
+        /* Scan Options Grid */
         .options-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 14px;
         }
-        
-        @media (max-width: 768px) {
-            .options-grid { grid-template-columns: 1fr; }
-        }
-        
+
         .option-card {
-            position: relative;
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             align-items: flex-start;
-            gap: 16px;
-            background: var(--card-bg);
+            gap: 14px;
+            padding: 16px;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+            position: relative;
+            user-select: none;
         }
-        
-        .option-card:hover {
-            border-color: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
-        }
-        
-        .option-card.selected {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(118, 75, 162, 0.04) 100%);
-        }
-        
-        .option-card.selected::after {
-            content: '\f00c';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 24px;
-            height: 24px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-        
-        .option-card input {
+
+        .option-card input[type="checkbox"] {
             display: none;
         }
-        
+
+        .option-card:hover {
+            border-color: rgba(255, 48, 63, 0.5);
+            background: var(--elev);
+        }
+
+        .option-card.selected {
+            border-color: var(--red);
+            background: var(--elev);
+            box-shadow: 0 0 16px rgba(255, 48, 63, 0.15);
+        }
+
         .option-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--r);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--line);
+            color: var(--tx2);
+            font-size: 15px;
             flex-shrink: 0;
-            transition: all 0.3s ease;
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
         }
-        
-        .icon-recon { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #1d4ed8; }
-        .icon-vuln { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); color: #dc2626; }
-        .icon-browser { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color: #059669; }
-        .icon-burp { background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%); color: #ea580c; }
-        
+
+        .option-card.selected .option-icon {
+            background: rgba(255, 48, 63, 0.15);
+            border-color: var(--red);
+            color: var(--red);
+        }
+
         .option-content h4 {
+            font-size: 0.95rem;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--tx);
             margin-bottom: 4px;
-            font-size: 1rem;
+            font-family: var(--disp);
         }
-        
+
         .option-content p {
-            font-size: 13px;
-            color: var(--text-secondary);
+            font-size: 0.8rem;
+            color: var(--tx2);
             line-height: 1.4;
         }
-        
-        /* Scan Button */
-        .scan-button-container {
-            text-align: center;
-            padding: 32px;
-        }
-        
-        .btn-scan {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border: none;
-            padding: 18px 56px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn-scan::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+
+        /* Action Button */
+        .btn-launch {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: var(--red);
+            color: #080607;
+            border: 1px solid var(--red);
+            border-radius: var(--r);
+            font: 700 14px var(--mono);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+            box-shadow: 0 4px 20px rgba(255, 48, 63, 0.35);
         }
-        
-        .btn-scan:hover::before {
-            left: 100%;
+
+        .btn-launch:hover:not(:disabled) {
+            background: var(--red-hover);
+            box-shadow: 0 6px 28px rgba(255, 48, 63, 0.55);
+            transform: translateY(-1px);
         }
-        
-        .btn-scan:hover:not(:disabled) {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
-        }
-        
-        .btn-scan:disabled {
+
+        .btn-launch:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            background: var(--crim);
+            border-color: var(--crim);
+            color: rgba(255, 255, 255, 0.6);
         }
-        
-        .btn-scan i {
-            font-size: 1.2rem;
-        }
-        
-        /* Loading */
-        .loading-container {
-            text-align: center;
-            padding: 48px 32px;
-        }
-        
-        .spinner-modern {
-            width: 80px;
-            height: 80px;
-            border: 4px solid var(--border-color);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 24px;
-            position: relative;
-        }
-        
-        .spinner-modern::after {
-            content: '';
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            right: -8px;
-            bottom: -8px;
-            border: 2px solid transparent;
-            border-top-color: var(--primary-light);
-            border-radius: 50%;
-            animation: spin 2s linear infinite reverse;
-        }
-        
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .loading-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-        
-        .loading-status {
-            color: var(--text-secondary);
-            font-size: 1rem;
+
+        /* Progress Bar */
+        .progress-box {
+            padding: 24px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
             margin-bottom: 24px;
         }
-        
-        .progress-wrapper {
-            max-width: 450px;
-            margin: 0 auto;
-            background: var(--border-color);
-            height: 10px;
-            border-radius: 5px;
+
+        .progress-track {
+            height: 8px;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 4px;
             overflow: hidden;
-            position: relative;
+            margin-bottom: 14px;
         }
-        
+
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-            border-radius: 5px;
-            transition: width 0.5s ease;
-            position: relative;
-            overflow: hidden;
+            background: linear-gradient(90deg, var(--crim) 0%, var(--red) 100%);
+            box-shadow: 0 0 12px rgba(255, 48, 63, 0.6);
+            width: 0%;
+            transition: width 0.4s ease;
         }
-        
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
+
+        .status-text {
+            font: 500 13px var(--mono);
+            color: var(--red);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        /* Results Stats */
-        .results-header {
+
+        /* Results Header */
+        .results-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 24px 28px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
-            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px;
+            background: var(--elev);
+            border-bottom: 1px solid var(--line);
             flex-wrap: wrap;
-            gap: 16px;
+            gap: 14px;
         }
-        
+
+        .target-info-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            font: 500 13px var(--mono);
+        }
+
+        .target-info-item span {
+            color: var(--tx2);
+        }
+
+        .target-info-item strong {
+            color: var(--tx);
+        }
+
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 12px;
-            margin: 24px 0;
+            margin: 20px 0;
         }
-        
+
         @media (max-width: 768px) {
             .stats-grid { grid-template-columns: repeat(3, 1fr); }
         }
-        
+
         .stat-card {
             text-align: center;
-            padding: 20px 12px;
-            border-radius: 16px;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            padding: 18px 12px;
+            border-radius: var(--r);
+            border: 1px solid var(--line);
+            background: var(--bg);
+            transition: transform 0.2s, border-color 0.2s;
         }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-        }
-        
+
         .stat-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-2px);
         }
-        
-        .stat-card.critical { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
-        .stat-card.critical::before { background: var(--critical); }
-        .stat-card.high { background: rgba(249, 115, 22, 0.1); border-color: rgba(249, 115, 22, 0.3); }
-        .stat-card.high::before { background: var(--high); }
-        .stat-card.medium { background: rgba(234, 179, 8, 0.1); border-color: rgba(234, 179, 8, 0.3); }
-        .stat-card.medium::before { background: var(--medium); }
-        .stat-card.low { background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3); }
-        .stat-card.low::before { background: var(--low); }
-        .stat-card.info { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); }
-        .stat-card.info::before { background: var(--info); }
-        
+
+        .stat-card.critical { border-color: rgba(255, 48, 63, 0.4); background: rgba(255, 48, 63, 0.08); }
+        .stat-card.high { border-color: rgba(255, 179, 71, 0.4); background: rgba(255, 179, 71, 0.08); }
+        .stat-card.medium { border-color: rgba(250, 204, 21, 0.4); background: rgba(250, 204, 21, 0.08); }
+        .stat-card.low { border-color: rgba(138, 180, 255, 0.4); background: rgba(138, 180, 255, 0.08); }
+        .stat-card.info { border-color: rgba(124, 255, 155, 0.4); background: rgba(124, 255, 155, 0.08); }
+
         .stat-number {
-            font-size: 2.25rem;
-            font-weight: 800;
+            font: 800 2rem var(--mono);
             line-height: 1;
         }
-        
-        .stat-number.critical { color: var(--critical); }
-        .stat-number.high { color: var(--high); }
-        .stat-number.medium { color: var(--medium); }
+
+        .stat-number.critical { color: var(--red); }
+        .stat-number.high { color: var(--warn); }
+        .stat-number.medium { color: #facc15; }
         .stat-number.low { color: var(--low); }
-        .stat-number.info { color: var(--info); }
-        
+        .stat-number.info { color: var(--ok); }
+
         .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
+            font: 600 11px var(--mono);
+            color: var(--tx2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
             margin-top: 6px;
-            font-weight: 600;
         }
-        
-        /* Target Info Bar */
-        .target-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 20px;
-            background: rgba(99, 102, 241, 0.08);
-            border-radius: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .target-info-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .target-info-label {
-            color: var(--text-secondary);
-            font-size: 13px;
-            font-weight: 500;
-        }
-        
-        .target-info-value {
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 14px;
-        }
-        
+
         /* Download Buttons */
         .download-buttons {
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
+            margin-top: 16px;
         }
-        
+
         .btn-download {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 14px;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            color: var(--tx);
+            font: 600 12px var(--mono);
+            letter-spacing: 0.04em;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid var(--border-color);
-            background: var(--card-bg);
-            color: var(--text-primary);
+            transition: all 0.2s;
         }
-        
+
         .btn-download:hover {
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.05);
-            transform: translateY(-2px);
+            border-color: var(--red);
+            background: var(--elev);
+            color: var(--red);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(255, 48, 63, 0.2);
         }
-        
+
         /* Finding Cards */
         .finding-card {
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 16px;
+            border-radius: var(--r);
+            padding: 20px;
+            margin-bottom: 14px;
+            border: 1px solid var(--line);
             border-left: 4px solid;
-            background: var(--card-bg);
-            transition: all 0.3s ease;
-            position: relative;
+            background: var(--bg);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        
+
         .finding-card:hover {
-            transform: translateX(8px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateX(4px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
         }
-        
-        [data-theme="dark"] .finding-card:hover {
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .finding-card.critical { border-left-color: var(--critical); background: rgba(239, 68, 68, 0.05); }
-        .finding-card.high { border-left-color: var(--high); background: rgba(249, 115, 22, 0.05); }
-        .finding-card.medium { border-left-color: var(--medium); background: rgba(234, 179, 8, 0.05); }
-        .finding-card.low { border-left-color: var(--low); background: rgba(34, 197, 94, 0.05); }
-        .finding-card.info { border-left-color: var(--info); background: rgba(59, 130, 246, 0.05); }
-        
+
+        .finding-card.critical { border-left-color: var(--red); }
+        .finding-card.high { border-left-color: var(--warn); }
+        .finding-card.medium { border-left-color: #facc15; }
+        .finding-card.low { border-left-color: var(--low); }
+        .finding-card.info { border-left-color: var(--ok); }
+
         .finding-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
-        
+
         .severity-badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 3px;
+            font: 700 10px var(--mono);
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
-        
-        .severity-badge.critical { background: var(--critical); color: white; }
-        .severity-badge.high { background: var(--high); color: white; }
-        .severity-badge.medium { background: var(--medium); color: white; }
-        .severity-badge.low { background: var(--low); color: white; }
-        .severity-badge.info { background: var(--info); color: white; }
-        
+
+        .severity-badge.critical { background: var(--red); color: #080607; }
+        .severity-badge.high { background: var(--warn); color: #080607; }
+        .severity-badge.medium { background: #facc15; color: #080607; }
+        .severity-badge.low { background: var(--low); color: #080607; }
+        .severity-badge.info { background: var(--ok); color: #080607; }
+
         .finding-title {
             font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--text-primary);
+            font-size: 1.05rem;
+            color: var(--tx);
         }
-        
+
         .finding-desc {
-            color: var(--text-secondary);
-            font-size: 15px;
+            color: var(--tx2);
+            font-size: 14px;
             line-height: 1.6;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
-        
+
         .finding-type {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            background: var(--border-color);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: 500;
+            font: 500 11px var(--mono);
+            color: var(--tx2);
+            background: var(--elev);
+            border: 1px solid var(--line);
+            padding: 4px 10px;
+            border-radius: 3px;
         }
-        
+
+        .finding-type i {
+            color: var(--red);
+        }
+
         .remediation-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 16px;
+            background: rgba(124, 255, 155, 0.04);
+            border: 1px solid rgba(124, 255, 155, 0.25);
+            border-radius: var(--r);
+            padding: 14px 16px;
+            margin-top: 14px;
         }
-        
+
         .remediation-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: #059669;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 8px;
+            gap: 8px;
+            color: var(--ok);
+            font: 700 12px var(--mono);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
         }
-        
+
         .remediation-text {
-            color: var(--text-secondary);
-            font-size: 14px;
+            color: var(--tx);
+            font-size: 13px;
             line-height: 1.5;
         }
-        
+
         /* History */
         .history-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            margin-bottom: 12px;
-            transition: all 0.3s ease;
+            padding: 14px 18px;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            margin-bottom: 10px;
+            transition: all 0.2s ease;
         }
-        
+
         .history-item:hover {
-            border-color: var(--primary-light);
-            transform: translateX(4px);
+            border-color: var(--red);
+            background: var(--elev);
+            transform: translateX(3px);
         }
-        
+
         .history-url {
-            font-weight: 700;
-            color: var(--text-primary);
-            font-size: 15px;
+            font: 600 14px var(--mono);
+            color: var(--tx);
         }
-        
+
         .history-meta {
-            font-size: 12px;
-            color: var(--text-secondary);
+            font: 400 11px var(--mono);
+            color: var(--tx2);
             margin-top: 4px;
         }
-        
+
         .history-stats {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
+            font: 600 12px var(--mono);
         }
-        
-        .history-count {
-            font-size: 13px;
-            font-weight: 700;
-        }
-        
+
         .status-badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font: 700 11px var(--mono);
+            text-transform: uppercase;
         }
-        
-        .status-badge.completed { background: #d1fae5; color: #065f46; }
-        .status-badge.running { background: #dbeafe; color: #1e40af; }
-        .status-badge.error { background: #fee2e2; color: #991b1b; }
-        
-        .hidden { display: none; }
-        
-        /* Empty State */
+
+        .status-badge.completed { background: rgba(124, 255, 155, 0.15); color: var(--ok); border: 1px solid rgba(124, 255, 155, 0.3); }
+        .status-badge.running { background: rgba(255, 48, 63, 0.15); color: var(--red); border: 1px solid rgba(255, 48, 63, 0.3); }
+        .status-badge.error { background: rgba(255, 48, 63, 0.2); color: var(--red); border: 1px solid var(--red); }
+
+        .hidden { display: none !important; }
+
         .empty-state {
             text-align: center;
-            padding: 48px 32px;
-            color: var(--text-secondary);
+            padding: 36px 20px;
+            color: var(--tx2);
         }
-        
+
         .empty-state i {
-            font-size: 64px;
-            margin-bottom: 20px;
-            opacity: 0.5;
+            font-size: 40px;
+            color: var(--line);
+            margin-bottom: 14px;
         }
-        
+
         .empty-state h3 {
-            font-size: 1.25rem;
+            font: 600 14px var(--mono);
+            color: var(--tx);
+            margin-bottom: 6px;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+            color: var(--tx2);
+        }
+
+        /* Footer */
+        .app-footer {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--line);
+            text-align: center;
+            color: var(--tx2);
+            font: 400 12px var(--mono);
+        }
+
+        .app-footer .foot-tag {
+            color: var(--red);
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
+            letter-spacing: 0.12em;
+            margin-bottom: 6px;
         }
-        
-        /* Animation */
-        .fade-in-up {
-            animation: fadeInUp 0.5s ease forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+
+        .app-footer strong {
+            color: var(--tx);
         }
     </style>
 </head>
 <body>
     <div class="main-container">
         <!-- App Header -->
-        <div class="app-header">
-            <button class="theme-toggle" onclick="toggleTheme()">
-                <i class="fas fa-moon"></i>
-                <span>Dark Mode</span>
-            </button>
-            <h1><i class="fas fa-shield-alt"></i> Web App Security Tester</h1>
-            <p style="color: white;">Advanced vulnerability scanner powered by Requests, Selenium & Burp Suite</p>
-            <p style="color: rgba(255, 255, 255, 0.75); font-size: 13px; margin-top: 6px;">Developed by <strong>Vinayaka N Walishettar</strong></p>
-        </div>
-        
+        <header class="app-header">
+            <div class="brand-pill">
+                <span class="pulse-dot"></span>
+                <span>KAVALU LABS // SECURITY TESTING PLATFORM</span>
+            </div>
+            <h1>Kavalu Labs Tester <em>Platform</em></h1>
+            <p>Advanced vulnerability discovery, evidence analysis & automated security testing powered by Requests, Selenium & Burp Suite.</p>
+            <div class="author-badge">
+                <span>[ ARCHITECT & SECURITY RESEARCH ]</span>
+                <strong>Vinayaka N Walishettar</strong>
+            </div>
+        </header>
+
         <!-- Step 1: Target URL -->
-        <div class="glass-card fade-in-up" style="animation-delay: 0.1s;">
+        <section class="glass-card">
             <div class="section-header">
-                <div class="section-number">1</div>
-                <div class="section-title">Enter Target URL</div>
+                <div class="section-number">01</div>
+                <div class="section-title">Target Specification</div>
             </div>
             <div class="card-body">
                 <div class="input-wrapper">
-                    <i class="fas fa-globe input-icon"></i>
+                    <i class="fas fa-crosshairs input-icon"></i>
                     <input type="url" id="targetUrl" class="modern-input" 
                            placeholder="https://example.com" 
                            value="http://testphp.vulnweb.com">
                 </div>
                 <div class="input-hint">
-                    <i class="fas fa-info-circle"></i>
-                    Enter the full URL including http:// or https:// protocol
+                    <i class="fas fa-terminal"></i>
+                    Enter full target URL including http:// or https:// protocol
                 </div>
             </div>
-        </div>
-        
+        </section>
+
         <!-- Step 2: Scan Options -->
-        <div class="glass-card fade-in-up" style="animation-delay: 0.2s;">
+        <section class="glass-card">
             <div class="section-header">
-                <div class="section-number">2</div>
-                <div class="section-title">Select Scan Modules</div>
+                <div class="section-number">02</div>
+                <div class="section-title">Assessment Modules</div>
             </div>
             <div class="card-body">
                 <div class="options-grid">
                     <label class="option-card selected" onclick="toggleOption(this)">
                         <input type="checkbox" id="checkRecon" checked>
-                        <div class="option-icon icon-recon">
-                            <i class="fas fa-search"></i>
+                        <div class="option-icon">
+                            <i class="fas fa-radar"></i>
                         </div>
                         <div class="option-content">
                             <h4>Reconnaissance</h4>
-                            <p>Detect server info, security headers, technology stack</p>
+                            <p>Detect server info, headers, technology stack & SSL</p>
                         </div>
                     </label>
-                    
+
                     <label class="option-card selected" onclick="toggleOption(this)">
                         <input type="checkbox" id="checkVuln" checked>
-                        <div class="option-icon icon-vuln">
+                        <div class="option-icon">
                             <i class="fas fa-bug"></i>
                         </div>
                         <div class="option-content">
-                            <h4>Vulnerability Scan</h4>
-                            <p>Test for XSS, SQL Injection, CSRF, Open Redirect</p>
+                            <h4>Vulnerabilities</h4>
+                            <p>Probe SQL injection, XSS reflection, SSRF & exposed files</p>
                         </div>
                     </label>
-                    
-                    <label class="option-card selected" onclick="toggleOption(this)">
-                        <input type="checkbox" id="checkBrowser" checked>
-                        <div class="option-icon icon-browser">
-                            <i class="fas fa-chrome"></i>
+
+                    <label class="option-card" onclick="toggleOption(this)">
+                        <input type="checkbox" id="checkBrowser">
+                        <div class="option-icon">
+                            <i class="fas fa-window-maximize"></i>
                         </div>
                         <div class="option-content">
-                            <h4>Browser Automation</h4>
-                            <p>DOM XSS, mixed content, client-side storage tests</p>
+                            <h4>Headless Browser</h4>
+                            <p>Selenium dynamic DOM crawling & client-side scripts</p>
                         </div>
                     </label>
-                    
+
                     <label class="option-card" onclick="toggleOption(this)">
                         <input type="checkbox" id="checkBurp">
-                        <div class="option-icon icon-burp">
+                        <div class="option-icon">
                             <i class="fas fa-network-wired"></i>
                         </div>
                         <div class="option-content">
-                            <h4>Burp Suite Proxy</h4>
-                            <p>Route traffic through Burp at 127.0.0.1:8080</p>
+                            <h4>Burp Suite</h4>
+                            <p>Forward scan targets via Burp REST API & proxy engine</p>
                         </div>
                     </label>
                 </div>
             </div>
+        </section>
+
+        <!-- Step 3: Launch Scan -->
+        <div style="margin-bottom: 24px;">
+            <button id="scanBtn" class="btn-launch" onclick="startScan()">
+                <i class="fas fa-shield-virus"></i>
+                <span>Initialize Security Assessment</span>
+            </button>
         </div>
-        
-        <!-- Step 3: Start Scan -->
-        <div class="glass-card fade-in-up" style="animation-delay: 0.3s;">
-            <div class="scan-button-container">
-                <button id="scanBtn" class="btn-scan" onclick="startScan()">
-                    <i class="fas fa-play"></i>
-                    Start Security Scan
-                </button>
-                <p style="color: var(--text-secondary); font-size: 14px; margin-top: 16px;">
-                    <i class="fas fa-clock" style="margin-right: 6px;"></i>
-                    Estimated time: 1-3 minutes depending on target complexity
-                </p>
+
+        <!-- Loading / Progress Section -->
+        <div id="loadingSection" class="progress-box hidden">
+            <div class="progress-track">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="status-text">
+                <i class="fas fa-circle-notch fa-spin"></i>
+                <span id="scanStatus">Initializing audit probes...</span>
             </div>
         </div>
-        
-        <!-- Loading Section -->
-        <div id="loadingSection" class="glass-card hidden">
-            <div class="loading-container">
-                <div class="spinner-modern"></div>
-                <div class="loading-text">Scanning in Progress</div>
-                <div class="loading-status" id="scanStatus">Initializing scan...</div>
-                <div class="progress-wrapper">
-                    <div id="progressBar" class="progress-fill" style="width: 0%"></div>
-                </div>
-            </div>
-        </div>
-        
+
         <!-- Results Section -->
         <div id="resultsSection" class="hidden">
-            <!-- Summary Card -->
             <div class="glass-card">
-                <div class="results-header">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <i class="fas fa-chart-pie" style="font-size: 24px; color: var(--primary);"></i>
-                        <div class="section-title" style="margin: 0;">Scan Results</div>
+                <div class="results-bar">
+                    <div class="target-info-wrap">
+                        <div class="target-info-item"><span>TARGET:</span> <strong id="resultTarget">-</strong></div>
+                        <div class="target-info-item"><span>SCAN ID:</span> <strong id="resultScanId" style="color: var(--red);">-</strong></div>
                     </div>
-                    <span id="scanStatusBadge" class="status-badge completed">Completed</span>
                 </div>
+
                 <div class="card-body">
-                    <div class="target-info">
-                        <div class="target-info-item">
-                            <span class="target-info-label"><i class="fas fa-bullseye" style="margin-right: 6px;"></i>Target:</span>
-                            <span class="target-info-value" id="resultTarget">-</span>
-                        </div>
-                        <div class="target-info-item">
-                            <span class="target-info-label"><i class="fas fa-fingerprint" style="margin-right: 6px;"></i>Scan ID:</span>
-                            <span class="target-info-value" id="resultScanId">-</span>
-                        </div>
-                    </div>
-                    
                     <div class="stats-grid">
                         <div class="stat-card critical">
                             <div class="stat-number critical" id="statCritical">0</div>
@@ -906,110 +810,100 @@
                             <div class="stat-label">Info</div>
                         </div>
                     </div>
-                    
+
                     <div class="download-buttons">
                         <button class="btn-download" onclick="downloadReport('pdf')">
-                            <i class="fas fa-file-pdf" style="color: #dc2626;"></i>
-                            Download PDF
+                            <i class="fas fa-file-pdf" style="color: var(--red);"></i>
+                            <span>DOWNLOAD PDF</span>
                         </button>
                         <button class="btn-download" onclick="downloadReport('html')">
-                            <i class="fas fa-file-code" style="color: #2563eb;"></i>
-                            Download HTML
+                            <i class="fas fa-file-code" style="color: var(--warn);"></i>
+                            <span>VIEW HTML</span>
                         </button>
                         <button class="btn-download" onclick="downloadReport('json')">
-                            <i class="fas fa-file-alt" style="color: #16a34a;"></i>
-                            Download JSON
+                            <i class="fas fa-file-alt" style="color: var(--ok);"></i>
+                            <span>EXPORT JSON</span>
                         </button>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Findings List -->
-            <div class="glass-card">
+            <section class="glass-card">
                 <div class="section-header">
-                    <i class="fas fa-list-alt" style="font-size: 20px; color: var(--primary);"></i>
-                    <div class="section-title">Detailed Findings</div>
+                    <div class="section-number"><i class="fas fa-shield-alt" style="font-size: 11px;"></i></div>
+                    <div class="section-title">Assessment Findings & Evidence</div>
                 </div>
                 <div class="card-body">
                     <div id="findingsList"></div>
                 </div>
-            </div>
+            </section>
         </div>
-        
-        <!-- History Section -->
-        <div class="glass-card fade-in-up" style="animation-delay: 0.4s;">
+
+        <!-- Recent Scans History -->
+        <section class="glass-card">
             <div class="section-header">
-                <i class="fas fa-history" style="font-size: 20px; color: var(--primary);"></i>
-                <div class="section-title">Recent Scans</div>
+                <div class="section-number"><i class="fas fa-history" style="font-size: 11px;"></i></div>
+                <div class="section-title">Historical Scan Audits</div>
             </div>
             <div class="card-body">
                 <div id="historyList">
                     <div class="empty-state">
-                        <i class="fas fa-clipboard-list"></i>
-                        <h3>No Scans Yet</h3>
-                        <p>Run your first security scan to see results here</p>
+                        <i class="fas fa-clipboard-check"></i>
+                        <h3>NO AUDIT LOGS RECORDED</h3>
+                        <p>Launch an assessment above to capture target findings and telemetry</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- App Footer -->
-        <footer style="text-align: center; padding: 24px 0 12px; margin-top: 32px; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 13px;">
-            <p>Web Application Security Tester · Developed by <strong style="color: var(--primary);">Vinayaka N Walishettar</strong></p>
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p class="foot-tag">[ ARCHITECT & SECURITY RESEARCH ]</p>
+            <p style="margin-bottom: 4px;"><strong>Vinayaka N Walishettar</strong></p>
+            <p style="color: var(--tx2); font-size: 11px;">Kavalu Labs Tester Platform · All security findings delivered under formal authorization</p>
         </footer>
     </div>
-    
+
     <script>
         let currentScanId = null;
         let statusCheckInterval = null;
-        
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            html.setAttribute('data-theme', newTheme);
-            
-            const btn = document.querySelector('.theme-toggle');
-            btn.innerHTML = newTheme === 'dark' 
-                ? '<i class="fas fa-sun"></i><span>Light Mode</span>'
-                : '<i class="fas fa-moon"></i><span>Dark Mode</span>';
-        }
-        
+
         function toggleOption(element) {
             const checkbox = element.querySelector('input');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('selected', checkbox.checked);
         }
-        
+
         async function startScan() {
             const url = document.getElementById('targetUrl').value.trim();
             if (!url) {
                 alert('Please enter a target URL');
                 return;
             }
-            
+
             if (!url.startsWith('http://') && !url.startsWith('https://')) {
                 alert('URL must start with http:// or https://');
                 return;
             }
-            
+
             const scanTypes = [];
             if (document.getElementById('checkRecon').checked) scanTypes.push('recon');
             if (document.getElementById('checkVuln').checked) scanTypes.push('vulnerabilities');
             if (document.getElementById('checkBrowser').checked) scanTypes.push('browser');
-            
+
             if (scanTypes.length === 0) {
                 alert('Please select at least one scan option');
                 return;
             }
-            
+
             const useBurp = document.getElementById('checkBurp').checked;
-            
+
             document.getElementById('loadingSection').classList.remove('hidden');
             document.getElementById('resultsSection').classList.add('hidden');
             document.getElementById('scanBtn').disabled = true;
             document.getElementById('progressBar').style.width = '10%';
-            
+
             try {
                 const response = await fetch('/api/scan', {
                     method: 'POST',
@@ -1021,124 +915,122 @@
                         use_selenium: document.getElementById('checkBrowser').checked
                     })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.error) {
                     throw new Error(data.error);
                 }
-                
+
                 currentScanId = data.scan_id;
-                document.getElementById('scanStatus').textContent = 'Scan initialized...';
+                document.getElementById('scanStatus').textContent = 'Security probes initialized...';
                 document.getElementById('progressBar').style.width = '25%';
-                
+
                 statusCheckInterval = setInterval(() => checkScanStatus(currentScanId), 2000);
-                
+
             } catch (error) {
-                alert('Scan failed: ' + error.message);
+                alert('Scan initialization failed: ' + error.message);
                 document.getElementById('loadingSection').classList.add('hidden');
                 document.getElementById('scanBtn').disabled = false;
             }
         }
-        
+
         async function checkScanStatus(scanId) {
             try {
                 const response = await fetch(`/api/scan/status/${scanId}`);
                 const data = await response.json();
-                
+
                 if (data.error) {
                     throw new Error(data.error);
                 }
-                
-                const statusMsg = data.current_message || 'Scanning in progress...';
+
+                const statusMsg = data.current_message || 'Assessment probe in progress...';
                 document.getElementById('scanStatus').textContent = statusMsg;
-                
+
                 let progress = 25;
                 if (data.status === 'running') progress = 60;
                 if (data.status === 'completed') progress = 100;
                 document.getElementById('progressBar').style.width = progress + '%';
-                
+
                 if (data.status === 'completed' || data.status === 'error') {
                     clearInterval(statusCheckInterval);
                     document.getElementById('loadingSection').classList.add('hidden');
                     document.getElementById('scanBtn').disabled = false;
-                    
+
                     if (data.status === 'completed') {
                         displayResults(data);
                     } else {
                         alert('Scan error: ' + (data.error || 'Unknown error'));
                     }
-                    
+
                     loadHistory();
                 }
-                
+
             } catch (error) {
                 console.error('Status check failed:', error);
             }
         }
-        
+
         function displayResults(data) {
             document.getElementById('resultsSection').classList.remove('hidden');
-            
+
             document.getElementById('resultTarget').textContent = data.target_url;
             document.getElementById('resultScanId').textContent = data.scan_id.substring(0, 8);
-            
+
             const stats = data.stats || {};
             document.getElementById('statCritical').textContent = stats.critical || 0;
             document.getElementById('statHigh').textContent = stats.high || 0;
             document.getElementById('statMedium').textContent = stats.medium || 0;
             document.getElementById('statLow').textContent = stats.low || 0;
             document.getElementById('statInfo').textContent = stats.info || 0;
-            
+
             const findingsList = document.getElementById('findingsList');
             findingsList.innerHTML = '';
-            
+
             const findings = data.findings || [];
-            
             const severityOrder = {critical: 0, high: 1, medium: 2, low: 3, info: 4};
             findings.sort((a, b) => severityOrder[a.severity] - severityOrder[b.severity]);
-            
+
             if (findings.length === 0) {
                 findingsList.innerHTML = `
                     <div class="empty-state">
-                        <i class="fas fa-check-circle" style="color: #22c55e;"></i>
-                        <h3>No Vulnerabilities Found</h3>
-                        <p>The scan completed successfully with no security issues detected</p>
+                        <i class="fas fa-shield-check" style="color: var(--ok);"></i>
+                        <h3>NO CRITICAL ANOMALIES IDENTIFIED</h3>
+                        <p>The assessment completed with no immediate high-risk security flaws recorded for this host.</p>
                     </div>
                 `;
                 return;
             }
-            
-            findings.forEach((finding, index) => {
+
+            findings.forEach((finding) => {
                 const div = document.createElement('div');
-                div.className = `finding-card ${finding.severity} fade-in-up`;
-                div.style.animationDelay = (index * 0.05) + 's';
-                
+                div.className = `finding-card ${finding.severity}`;
+
                 let remediationHtml = '';
                 if (finding.remediation) {
                     remediationHtml = `
                         <div class="remediation-box">
                             <div class="remediation-header">
                                 <i class="fas fa-check-circle"></i>
-                                Remediation
+                                Remediation Advisory
                             </div>
                             <div class="remediation-text">${finding.remediation}</div>
                         </div>
                     `;
                 }
-                
+
                 let detailsHtml = '';
                 if (finding.details && Object.keys(finding.details).length > 0) {
                     const detailItems = Object.entries(finding.details)
-                        .slice(0, 3)
+                        .slice(0, 4)
                         .map(([k, v]) => {
-                            const val = typeof v === 'object' ? JSON.stringify(v).substring(0, 50) : String(v).substring(0, 50);
-                            return `<span class="finding-type">${k}: ${val}</span>`;
+                            const val = typeof v === 'object' ? JSON.stringify(v).substring(0, 60) : String(v).substring(0, 60);
+                            return `<span class="finding-type"><strong style="color:var(--tx);">${k}:</strong> ${val}</span>`;
                         })
                         .join(' ');
-                    detailsHtml = `<div style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px;">${detailItems}</div>`;
+                    detailsHtml = `<div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px;">${detailItems}</div>`;
                 }
-                
+
                 div.innerHTML = `
                     <div class="finding-header">
                         <span class="severity-badge ${finding.severity}">${finding.severity}</span>
@@ -1149,44 +1041,44 @@
                     ${detailsHtml}
                     ${remediationHtml}
                 `;
-                
+
                 findingsList.appendChild(div);
             });
-            
+
             document.getElementById('resultsSection').scrollIntoView({behavior: 'smooth'});
         }
-        
+
         async function downloadReport(format) {
             if (!currentScanId) {
-                alert('No scan results available');
+                alert('No active scan report available');
                 return;
             }
             window.open(`/api/report/${currentScanId}?format=${format}`, '_blank');
         }
-        
+
         async function loadHistory() {
             try {
                 const response = await fetch('/api/history');
                 const history = await response.json();
-                
+
                 const historyList = document.getElementById('historyList');
-                
-                if (history.length === 0) {
+
+                if (!history || history.length === 0) {
                     historyList.innerHTML = `
                         <div class="empty-state">
-                            <i class="fas fa-clipboard-list"></i>
-                            <h3>No Scans Yet</h3>
-                            <p>Run your first security scan to see results here</p>
+                            <i class="fas fa-clipboard-check"></i>
+                            <h3>NO AUDIT LOGS RECORDED</h3>
+                            <p>Launch an assessment above to capture target findings and telemetry</p>
                         </div>
                     `;
                     return;
                 }
-                
+
                 historyList.innerHTML = history.slice(-5).reverse().map(scan => {
                     const stats = scan.stats || {};
                     const statusClass = scan.status === 'completed' ? 'completed' : 
                                        scan.status === 'error' ? 'error' : 'running';
-                    
+
                     return `
                         <div class="history-item">
                             <div>
@@ -1194,19 +1086,19 @@
                                 <div class="history-meta">${new Date(scan.start_time).toLocaleString()}</div>
                             </div>
                             <div class="history-stats">
-                                <span class="history-count" style="color: #ef4444;">${stats.critical || 0} Critical</span>
-                                <span class="history-count" style="color: #f97316;">${stats.high || 0} High</span>
+                                <span style="color: var(--red);">${stats.critical || 0} Crit</span>
+                                <span style="color: var(--warn);">${stats.high || 0} High</span>
                                 <span class="status-badge ${statusClass}">${scan.status}</span>
                             </div>
                         </div>
                     `;
                 }).join('');
-                
+
             } catch (error) {
                 console.error('Failed to load history:', error);
             }
         }
-        
+
         loadHistory();
     </script>
 </body>
