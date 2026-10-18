@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Kavalu Labs Security Engine — By Vinayaka N Walishettar</title>
-    <meta name="description" content="Kavalu Labs Security Engine — High-assurance web application security testing, reconnaissance, vulnerability probing & automated verification.">
+    <title>Kavalu Labs Security Engine</title>
+    <meta name="description" content="Kavalu Labs Security Engine — Automated web application security testing, reconnaissance, vulnerability probing & verification.">
     <meta name="theme-color" content="#0A0A0A">
-    <meta name="author" content="Vinayaka N Walishettar">
+    <meta name="author" content="Kavalu Labs">
 
-    <!-- Fonts inspired by nayaka100.in: Anton, Space Mono, Inter -->
+    <!-- Typography: Anton, Space Mono, Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -19,12 +19,12 @@
             --ac: #D4FF00;          /* Cyber lime accent */
             --rd: #FF0000;          /* Pure cyber red */
             --rd-glow: rgba(255, 0, 0, 0.35);
-            --bg: #0A0A0A;          /* Pure dark background */
-            --sf: #141414;          /* Surface cards */
-            --sf2: #1b1b1a;         /* Elevated surface */
+            --bg: #0A0A0A;          /* Pitch black background */
+            --sf: #141414;          /* Card surface */
+            --sf2: #1c1c1b;         /* Elevated surface */
             --ln: #2a2a27;          /* Technical line border */
-            --ln-hover: #3d3d38;
-            --tx: #F2EFE8;          /* Creamy off-white text */
+            --ln-hover: #4a4a44;
+            --tx: #F2EFE8;          /* Off-white text */
             --mu: #8A8A82;          /* Muted text */
             --ok: #7CFF9B;          /* Green pass/safe */
             --warn: #FFB347;        /* Amber warning */
@@ -50,7 +50,7 @@
             overflow-x: clip;
             -webkit-font-smoothing: antialiased;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(255, 0, 0, 0.12) 0%, transparent 55%),
+                radial-gradient(circle at 50% 0%, rgba(255, 0, 0, 0.12) 0%, transparent 60%),
                 linear-gradient(rgba(242, 239, 232, 0.035) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(242, 239, 232, 0.035) 1px, transparent 1px);
             background-size: 100% 100%, 48px 48px, 48px 48px;
@@ -80,7 +80,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
-            padding: 0.75rem 4vw;
+            padding: 0.8rem 4vw;
             background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -173,7 +173,7 @@
         .app-header p {
             color: var(--mu);
             font-size: 15px;
-            max-width: 700px;
+            max-width: 720px;
             line-height: 1.5;
         }
 
@@ -195,8 +195,8 @@
         }
 
         .arch-badge .dot {
-            width: 7px;
-            height: 7px;
+            width: 8px;
+            height: 8px;
             background: var(--rd);
             border-radius: 50%;
             display: inline-block;
@@ -207,7 +207,7 @@
             50% { opacity: 0.2; }
         }
 
-        /* Section Cards */
+        /* Section Panels */
         .panel {
             background: var(--sf);
             border: 1px solid var(--ln);
@@ -227,7 +227,7 @@
             background: #111110;
             border-bottom: 1px solid var(--ln);
             font: 700 12px var(--mo);
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             color: var(--mu);
         }
@@ -258,7 +258,7 @@
         .input-prefix {
             padding: 0 16px;
             color: var(--rd);
-            font: 700 14px var(--mo);
+            font: 700 13px var(--mo);
             user-select: none;
         }
 
@@ -275,7 +275,7 @@
 
         .input-subtext {
             margin-top: 10px;
-            font: 11.5px var(--mo);
+            font: 12px var(--mo);
             color: var(--mu);
             display: flex;
             align-items: center;
@@ -289,68 +289,117 @@
         /* Scan Module Grid */
         .mod-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 14px;
         }
 
         .mod-card {
-            border: 1.5px solid var(--ln);
+            border: 2px solid var(--ln);
             background: #0A0A0A;
-            padding: 16px;
+            padding: 18px 16px;
             cursor: pointer;
-            transition: all 0.25s var(--e);
+            transition: all 0.2s var(--e);
             position: relative;
             user-select: none;
-        }
-
-        .mod-card input[type="checkbox"] {
-            display: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .mod-card:hover {
-            border-color: var(--rd);
-            background: var(--sf);
+            border-color: var(--ln-hover);
+            background: #141414;
         }
 
         .mod-card.selected {
             border-color: var(--rd);
             background: #19090b;
-            box-shadow: 0 0 14px rgba(255, 0, 0, 0.15);
+            box-shadow: 0 0 18px rgba(255, 0, 0, 0.2);
         }
 
         .mod-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
-        .mod-tag {
-            font: 700 10px var(--mo);
-            letter-spacing: 0.1em;
-            color: var(--mu);
+        /* Prominent Checkbox Indicator */
+        .chk-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chk-box {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--ln);
+            background: #0A0A0A;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .mod-card.selected .chk-box {
+            background: var(--rd);
+            border-color: var(--rd);
+            color: #0A0A0A;
+        }
+
+        .chk-box i {
+            font-size: 11px;
+            font-weight: 900;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .mod-card.selected .chk-box i {
+            opacity: 1;
+        }
+
+        .status-pill {
+            font: 700 10.5px var(--mo);
+            letter-spacing: 0.08em;
+            padding: 2px 7px;
             text-transform: uppercase;
+            border: 1px solid var(--ln);
+            color: var(--mu);
+            border-radius: 2px;
         }
 
-        .mod-card.selected .mod-tag {
-            color: var(--rd);
+        .mod-card.selected .status-pill {
+            border-color: var(--rd);
+            background: var(--rd);
+            color: #0A0A0A;
+            font-weight: 700;
         }
 
         .mod-title {
-            font: 22px/1 var(--dp);
+            font: 22px/1.1 var(--dp);
             text-transform: uppercase;
-            letter-spacing: 0.03em;
+            letter-spacing: 0.02em;
             color: var(--tx);
-            margin-bottom: 6px;
+        }
+
+        .mod-card.selected .mod-title {
+            color: #FFF;
         }
 
         .mod-desc {
             font-size: 12.5px;
             color: var(--mu);
-            line-height: 1.4;
+            line-height: 1.45;
         }
 
-        /* Buttons (nayaka100 style) */
+        .mod-card.selected .mod-desc {
+            color: #CFCBC4;
+        }
+
+        /* Action Button */
         .bt {
             display: inline-flex;
             align-items: center;
@@ -359,8 +408,8 @@
             background: var(--rd);
             color: #0A0A0A;
             border: 2px solid var(--rd);
-            padding: 0.95rem 1.6rem;
-            font: 700 13px var(--mo);
+            padding: 1rem 1.6rem;
+            font: 700 14px var(--mo);
             letter-spacing: 0.08em;
             text-transform: uppercase;
             text-decoration: none;
@@ -368,21 +417,24 @@
             cursor: pointer;
             width: 100%;
             box-sizing: border-box;
-            transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.2s var(--e);
+            transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
         }
 
         .bt:hover:not(:disabled) {
             background: transparent;
             color: var(--rd);
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.35);
+            box-shadow: 0 0 24px rgba(255, 0, 0, 0.45);
+            transform: translateY(-1px);
         }
 
         .bt:disabled {
-            opacity: 0.45;
+            opacity: 0.5;
             cursor: not-allowed;
             border-color: var(--ln);
             background: var(--sf);
             color: var(--mu);
+            box-shadow: none;
+            transform: none;
         }
 
         .bt.o {
@@ -391,26 +443,28 @@
             padding: 0.6rem 1.2rem;
             background: transparent;
             color: var(--tx);
-            border-color: var(--ln);
-            font-size: 11.5px;
+            border: 1.5px solid var(--ln);
+            font-size: 12px;
         }
 
         .bt.o:hover {
             border-color: var(--rd);
             color: var(--rd);
             background: rgba(255, 0, 0, 0.08);
+            box-shadow: 0 0 14px rgba(255, 0, 0, 0.25);
         }
 
-        /* Progress Box */
+        /* Progress Panel */
         .prog-panel {
-            background: #110809;
-            border: 1.5px solid var(--rd);
-            padding: 20px;
+            background: #14090b;
+            border: 2px solid var(--rd);
+            padding: 22px 20px;
             margin-bottom: 24px;
+            box-shadow: 0 0 24px rgba(255, 0, 0, 0.2);
         }
 
         .prog-bar-wrap {
-            height: 6px;
+            height: 8px;
             background: #0A0A0A;
             border: 1px solid var(--ln);
             overflow: hidden;
@@ -420,19 +474,32 @@
         .prog-fill {
             height: 100%;
             background: var(--rd);
-            box-shadow: 0 0 12px var(--rd);
+            box-shadow: 0 0 14px var(--rd);
             width: 0%;
             transition: width 0.35s ease;
         }
 
+        .prog-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
         .prog-msg {
-            font: 600 12.5px var(--mo);
+            font: 700 13px var(--mo);
             color: var(--rd);
             display: flex;
             align-items: center;
             gap: 8px;
             letter-spacing: 0.04em;
             text-transform: uppercase;
+        }
+
+        .prog-pct {
+            font: 700 13px var(--mo);
+            color: var(--tx);
         }
 
         /* Results Display */
@@ -500,9 +567,9 @@
         .metric-val.info { color: var(--ok); }
 
         .metric-name {
-            font: 700 10.5px var(--mo);
+            font: 700 11px var(--mo);
             color: var(--mu);
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
@@ -564,14 +631,14 @@
         }
 
         .finding-desc {
-            font-size: 13.5px;
+            font-size: 14px;
             color: var(--mu);
             margin: 8px 0;
             line-height: 1.5;
         }
 
         .finding-details-box {
-            font: 11px var(--mo);
+            font: 11.5px var(--mo);
             color: var(--mu);
             background: #141414;
             border: 1px solid var(--ln);
@@ -598,10 +665,101 @@
         .remed-box b {
             font: 700 11px var(--mo);
             color: var(--ok);
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
             display: block;
-            margin-bottom: 4px;
+        }
+
+        /* Target Deployment & Developer Attribution Card */
+        .attribution-box {
+            background: #0d0d0d;
+            border: 1px solid var(--ln);
+            border-left: 4px solid var(--ac);
+            margin: 16px 20px 20px 20px;
+            padding: 16px 18px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+        }
+
+        .attr-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--ln);
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+            font: 700 12px var(--mo);
+            color: var(--tx);
+            letter-spacing: 0.08em;
             text-transform: uppercase;
+        }
+
+        .attr-header i {
+            color: var(--ac);
+            margin-right: 6px;
+        }
+
+        .attr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 14px;
+        }
+
+        .attr-cell {
+            background: #141414;
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 12px 14px;
+        }
+
+        .attr-k {
+            font: 700 10.5px var(--mo);
+            color: var(--mu);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .attr-k i {
+            margin-right: 4px;
+            color: var(--ac);
+        }
+
+        .attr-v {
+            font: 700 14px var(--mo);
+            color: var(--tx);
+            word-break: break-word;
+            margin-bottom: 4px;
+        }
+
+        .attr-v.highlight-red {
+            color: var(--rd);
+        }
+
+        .attr-v.highlight-lime {
+            color: var(--ac);
+        }
+
+        .attr-sub {
+            font: 11px var(--mo);
+            color: var(--mu);
+            word-break: break-word;
+        }
+
+        .attr-social-link {
+            display: inline-block;
+            margin-right: 6px;
+            margin-top: 4px;
+            padding: 2px 6px;
+            background: #1e1e1e;
+            border: 1px solid var(--ln);
+            color: var(--ac);
+            text-decoration: none;
+            font: 11px var(--mo);
+            transition: all 0.2s;
+        }
+
+        .attr-social-link:hover {
+            border-color: var(--ac);
+            color: #fff;
+            background: rgba(212, 255, 0, 0.1);
         }
 
         /* History List */
@@ -609,7 +767,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 16px;
+            padding: 14px 16px;
             background: #0A0A0A;
             border: 1px solid var(--ln);
             margin-bottom: 8px;
@@ -636,12 +794,12 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            font: 600 11px var(--mo);
+            font: 600 11.5px var(--mo);
         }
 
         .empty-placeholder {
             text-align: center;
-            padding: 40px 16px;
+            padding: 36px 16px;
             color: var(--mu);
             font: 13px var(--mo);
         }
@@ -653,16 +811,16 @@
             display: block;
         }
 
-        /* Fixed HUD Bar (from nayaka100.in) */
+        /* Fixed HUD Bar */
         #hud {
             position: fixed;
             left: 1rem;
             bottom: 0.8rem;
-            background: rgba(10, 10, 10, 0.92);
+            background: rgba(10, 10, 10, 0.94);
             border: 1px solid var(--ln);
-            padding: 0.35rem 0.75rem;
+            padding: 0.4rem 0.8rem;
             z-index: 55;
-            font: 10.5px var(--mo);
+            font: 11px var(--mo);
             letter-spacing: 0.08em;
             color: var(--mu);
             pointer-events: none;
@@ -694,7 +852,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 14px;
-            font: 11.5px var(--mo);
+            font: 12px var(--mo);
             color: var(--mu);
         }
 
@@ -715,17 +873,17 @@
     </style>
 </head>
 <body>
-    <!-- Scanline -->
+    <!-- Top Red Laser Scanline -->
     <div id="sl"></div>
 
-    <!-- Top Navigation -->
+    <!-- Top Navigation Bar -->
     <nav class="nv">
         <a href="/" class="lg">
             <span>KAVALU</span><em>//</em><span>ENGINE</span>
         </a>
         <div class="nv-badges">
             <span class="tg r">LIVE ENGINE</span>
-            <span class="tg ac">SECURE AUDIT</span>
+            <span class="tg ac">TESTER READY</span>
         </div>
     </nav>
 
@@ -733,32 +891,32 @@
     <main class="main-container">
         <!-- Hero Header -->
         <header class="app-header">
-            <p class="lb"><b>00</b> // ARCHITECTURE SPECIFICATION</p>
+            <p class="lb"><b>00</b> // SECURITY PLATFORM</p>
             <h1>Kavalu Labs <span>Security Engine</span></h1>
-            <p>Automated attack surface intelligence, vulnerability probing, and verification testing built on Requests, Selenium, and Burp Suite.</p>
+            <p>Automated attack surface discovery, vulnerability testing, and verification engine powered by Requests, Selenium, and Burp Suite.</p>
             <div class="arch-badge">
                 <span class="dot"></span>
-                <span>ENGINE ARCHITECT:</span>
-                <strong>Vinayaka N Walishettar</strong>
+                <span>SYSTEM STATUS:</span>
+                <strong>ONLINE & READY</strong>
             </div>
         </header>
 
-        <!-- 01: Target Specification -->
+        <!-- 01: Target Website URL -->
         <section class="panel">
             <div class="panel-head">
-                <span><b>01</b> TARGET HOST SPECIFICATION</span>
-                <span class="tg">ENDPOINT ENTRY</span>
+                <span><b>01</b> TARGET WEBSITE URL</span>
+                <span class="tg">ENTER URL</span>
             </div>
             <div class="panel-body">
                 <div class="input-row">
-                    <span class="input-prefix">URI:</span>
+                    <span class="input-prefix">URL:</span>
                     <input type="url" id="targetUrl" class="target-input" 
-                           placeholder="https://example.com" 
-                           value="http://testphp.vulnweb.com">
+                           placeholder="https://www.nayaka100.in/" 
+                           value="https://www.nayaka100.in/">
                 </div>
                 <p class="input-subtext">
-                    <i class="fas fa-terminal"></i>
-                    Target endpoint must include <b>http://</b> or <b>https://</b> protocol schema.
+                    <i class="fas fa-info-circle" style="color: var(--rd);"></i>
+                    Target URL must start with <b>http://</b> or <b>https://</b> (e.g., https://example.com)
                 </p>
             </div>
         </section>
@@ -766,83 +924,132 @@
         <!-- 02: Scan Modules -->
         <section class="panel">
             <div class="panel-head">
-                <span><b>02</b> AUDIT MODULE SELECTION</span>
-                <span class="tg">4 PROBES CONFIGURED</span>
+                <span><b>02</b> SECURITY SCAN MODULES</span>
+                <span class="tg">CHOOSE MODULES</span>
             </div>
             <div class="panel-body">
                 <div class="mod-grid">
-                    <label class="mod-card selected" onclick="toggleOption(this)">
-                        <input type="checkbox" id="checkRecon" checked>
+                    <!-- Module 1: Reconnaissance -->
+                    <div class="mod-card selected" id="cardRecon" onclick="toggleOption('checkRecon')">
+                        <input type="checkbox" id="checkRecon" checked style="display:none;">
                         <div class="mod-top">
-                            <span class="mod-tag">RECONNAISSANCE</span>
-                            <span class="tg">TCP/HTTP</span>
+                            <div class="chk-wrap">
+                                <span class="chk-box"><i class="fas fa-check"></i></span>
+                                <span class="mod-tag" style="font-size:11px; font-weight:700;">RECON</span>
+                            </div>
+                            <span class="status-pill mod-status">SELECTED</span>
                         </div>
-                        <div class="mod-title">SURFACE RECON</div>
-                        <p class="mod-desc">Headers, server tech stack, SSL/TLS certificates and TLS cipher negotiation.</p>
-                    </label>
+                        <div class="mod-title">RECONNAISSANCE</div>
+                        <p class="mod-desc">Checks SSL/TLS certificate, web server info, technology stack, and HTTP security headers.</p>
+                    </div>
 
-                    <label class="mod-card selected" onclick="toggleOption(this)">
-                        <input type="checkbox" id="checkVuln" checked>
+                    <!-- Module 2: Vulnerability Scanner -->
+                    <div class="mod-card selected" id="cardVuln" onclick="toggleOption('checkVuln')">
+                        <input type="checkbox" id="checkVuln" checked style="display:none;">
                         <div class="mod-top">
-                            <span class="mod-tag">EXPLOIT PROBES</span>
-                            <span class="tg">PAYLOADS</span>
+                            <div class="chk-wrap">
+                                <span class="chk-box"><i class="fas fa-check"></i></span>
+                                <span class="mod-tag" style="font-size:11px; font-weight:700;">EXPLOITS</span>
+                            </div>
+                            <span class="status-pill mod-status">SELECTED</span>
                         </div>
-                        <div class="mod-title">VULN DISCOVERY</div>
-                        <p class="mod-desc">Active probing for SQL injection, reflected XSS, SSRF, open redirects & leaks.</p>
-                    </label>
+                        <div class="mod-title">VULN SCANNER</div>
+                        <p class="mod-desc">Tests for SQL Injection, Cross-Site Scripting (XSS), open redirects, and exposed files.</p>
+                    </div>
 
-                    <label class="mod-card" onclick="toggleOption(this)">
-                        <input type="checkbox" id="checkBrowser">
+                    <!-- Module 3: Browser Automation -->
+                    <div class="mod-card" id="cardBrowser" onclick="toggleOption('checkBrowser')">
+                        <input type="checkbox" id="checkBrowser" style="display:none;">
                         <div class="mod-top">
-                            <span class="mod-tag">BROWSER DYNAMICS</span>
-                            <span class="tg">SELENIUM</span>
+                            <div class="chk-wrap">
+                                <span class="chk-box"><i class="fas fa-check"></i></span>
+                                <span class="mod-tag" style="font-size:11px; font-weight:700;">SELENIUM</span>
+                            </div>
+                            <span class="status-pill mod-status">NOT SELECTED</span>
                         </div>
-                        <div class="mod-title">DOM AUTOMATION</div>
-                        <p class="mod-desc">Headless browser rendering for single-page apps, DOM XSS & client scripts.</p>
-                    </label>
+                        <div class="mod-title">BROWSER TESTING</div>
+                        <p class="mod-desc">Runs a headless browser to test dynamic single-page web applications and DOM XSS.</p>
+                    </div>
 
-                    <label class="mod-card" onclick="toggleOption(this)">
-                        <input type="checkbox" id="checkBurp">
+                    <!-- Module 4: Burp Suite Proxy -->
+                    <div class="mod-card" id="cardBurp" onclick="toggleOption('checkBurp')">
+                        <input type="checkbox" id="checkBurp" style="display:none;">
                         <div class="mod-top">
-                            <span class="mod-tag">EXTERNAL SUITE</span>
-                            <span class="tg">BURP PROXY</span>
+                            <div class="chk-wrap">
+                                <span class="chk-box"><i class="fas fa-check"></i></span>
+                                <span class="mod-tag" style="font-size:11px; font-weight:700;">PROXY</span>
+                            </div>
+                            <span class="status-pill mod-status">NOT SELECTED</span>
                         </div>
-                        <div class="mod-title">BURP INTEGRATION</div>
-                        <p class="mod-desc">Forward target endpoints to local/remote Burp Suite REST API proxy.</p>
-                    </label>
+                        <div class="mod-title">BURP SUITE PROXY</div>
+                        <p class="mod-desc">Forwards scan traffic through your local Burp Suite proxy (port 8080) for advanced analysis.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 03: Launch Action -->
+        <!-- 03: Start Scan Button -->
         <div style="margin-bottom: 24px;">
             <button id="scanBtn" class="bt" onclick="startScan()">
-                <i class="fas fa-crosshairs"></i>
-                <span>INITIALIZE SECURITY ASSESSMENT ➔</span>
+                <i class="fas fa-play"></i>
+                <span id="scanBtnText">START SECURITY SCAN ➔</span>
             </button>
         </div>
 
-        <!-- Live Progress Feedback -->
+        <!-- Live Progress Panel -->
         <div id="loadingSection" class="prog-panel hidden">
             <div class="prog-bar-wrap">
                 <div class="prog-fill" id="progressBar"></div>
             </div>
-            <div class="prog-msg">
-                <i class="fas fa-spinner fa-spin"></i>
-                <span id="scanStatus">INITIALIZING SECURITY PROBES...</span>
+            <div class="prog-info">
+                <div class="prog-msg">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                    <span id="scanStatus">SCANNING IN PROGRESS...</span>
+                </div>
+                <div class="prog-pct" id="progressPct">0%</div>
             </div>
         </div>
 
-        <!-- 04: Assessment Findings Section -->
+        <!-- 04: Scan Results -->
         <section id="resultsSection" class="panel hidden">
             <div class="panel-head">
-                <span><b>03</b> ASSESSMENT FINDINGS & METRICS</span>
-                <span class="tg r">LIVE TELEMETRY</span>
+                <span><b>03</b> SCAN RESULTS & FINDINGS</span>
+                <span class="tg r">COMPLETED</span>
             </div>
 
             <div class="meta-strip">
-                <div class="meta-item"><b>TARGET:</b> <span id="resultTarget">-</span></div>
+                <div class="meta-item"><b>TARGET URL:</b> <span id="resultTarget">-</span></div>
                 <div class="meta-item"><b>SCAN ID:</b> <span id="resultScanId" class="scan-chip">-</span></div>
+            </div>
+
+            <!-- Target Deployment & Developer Attribution Card -->
+            <div id="attributionPanel" class="attribution-box">
+                <div class="attr-header">
+                    <span><i class="fas fa-fingerprint"></i> TARGET INFRASTRUCTURE & DEVELOPER ATTRIBUTION</span>
+                    <span class="tg" id="attrConfidence" style="background: rgba(212, 255, 0, 0.12); color: var(--ac); border-color: var(--ac);">READY</span>
+                </div>
+                <div class="attr-grid">
+                    <div class="attr-cell">
+                        <div class="attr-k"><i class="fas fa-server"></i> DEPLOYED PLATFORM</div>
+                        <div class="attr-v highlight-red" id="attrPlatform">Awaiting Scan</div>
+                        <div class="attr-sub" id="attrServerHeader">Server Header: -</div>
+                    </div>
+                    <div class="attr-cell">
+                        <div class="attr-k"><i class="fas fa-map-marker-alt"></i> HOSTING LOCATION & IP</div>
+                        <div class="attr-v" id="attrLocation">Awaiting Scan</div>
+                        <div class="attr-sub" id="attrIp">IP: -</div>
+                    </div>
+                    <div class="attr-cell">
+                        <div class="attr-k"><i class="fas fa-user-shield"></i> DEVELOPER / AUTHOR</div>
+                        <div class="attr-v highlight-lime" id="attrDeveloper">Awaiting Scan</div>
+                        <div class="attr-sub" id="attrDevSource">Source: -</div>
+                    </div>
+                    <div class="attr-cell">
+                        <div class="attr-k"><i class="fas fa-building"></i> ORGANIZATION & SOCIALS</div>
+                        <div class="attr-v" id="attrOrg">Awaiting Scan</div>
+                        <div class="attr-sub" id="attrSocials">Footprint: -</div>
+                    </div>
+                </div>
             </div>
 
             <div class="panel-body">
@@ -888,17 +1095,17 @@
             </div>
         </section>
 
-        <!-- 05: Historical Audit Logs -->
+        <!-- 05: Recent Scan History -->
         <section class="panel">
             <div class="panel-head">
-                <span><b>04</b> HISTORICAL AUDIT LOGS</span>
-                <span class="tg">PERSISTED SCANS</span>
+                <span><b>04</b> RECENT SCAN HISTORY</span>
+                <span class="tg">SAVED SCANS</span>
             </div>
             <div class="panel-body">
                 <div id="historyList">
                     <div class="empty-placeholder">
-                        <i class="fas fa-clipboard-list"></i>
-                        <p>NO AUDIT LOGS RECORDED. RUN A SCAN TO INITIALIZE TELEMETRY.</p>
+                        <i class="fas fa-history"></i>
+                        <p>NO PREVIOUS SCANS RECORDED. Run a scan above to see results saved here.</p>
                     </div>
                 </div>
             </div>
@@ -907,15 +1114,15 @@
         <!-- Footer -->
         <footer class="footer">
             <div>
-                [ ARCHITECT & SECURITY RESEARCH ] · <strong>Vinayaka N Walishettar</strong>
+                [ ENGINE ] · <strong>Kavalu Labs Security Engine</strong>
             </div>
             <div>
-                PORTFOLIO: <a href="https://www.nayaka100.in/" target="_blank" rel="noopener noreferrer">nayaka100.in ↗</a>
+                AUTOMATED WEB APPLICATION SECURITY & VERIFICATION PLATFORM
             </div>
         </footer>
     </main>
 
-    <!-- Fixed HUD (nayaka100 telemetry style) -->
+    <!-- Fixed HUD Telemetry Bar -->
     <div id="hud">
         <i></i>ENGINE: <b>ONLINE</b> · PORT: <b>5000</b> · KAVALU LABS
     </div>
@@ -925,8 +1132,7 @@
         let statusCheckInterval = null;
 
         // Dynamic backend URL resolver:
-        // If served from Flask on port 5000, use relative path ''.
-        // If served on port 3000 (Live Server), 5500, or file://, automatically point to Flask on port 5000!
+        // Automatically connects to Flask on port 5000 even if opened on port 3000, 5500, or file://
         function getBackendUrl() {
             if (window.location.protocol === 'file:') {
                 return 'http://127.0.0.1:5000';
@@ -939,48 +1145,77 @@
         }
         const BACKEND_URL = getBackendUrl();
 
-        function toggleOption(element) {
-            const checkbox = element.querySelector('input');
-            checkbox.checked = !checkbox.checked;
-            element.classList.toggle('selected', checkbox.checked);
+        // Safe toggle function that syncs both the checkbox and visual elements
+        function toggleOption(checkboxId) {
+            const cb = document.getElementById(checkboxId);
+            if (!cb) return;
+            cb.checked = !cb.checked;
+            syncCardVisual(checkboxId);
+        }
+
+        function syncCardVisual(checkboxId) {
+            const cb = document.getElementById(checkboxId);
+            if (!cb) return;
+            const card = cb.closest('.mod-card');
+            if (!card) return;
+            const statusPill = card.querySelector('.status-pill');
+
+            if (cb.checked) {
+                card.classList.add('selected');
+                if (statusPill) {
+                    statusPill.textContent = 'SELECTED';
+                }
+            } else {
+                card.classList.remove('selected');
+                if (statusPill) {
+                    statusPill.textContent = 'NOT SELECTED';
+                }
+            }
         }
 
         async function startScan() {
             const urlInput = document.getElementById('targetUrl');
-            const url = urlInput ? urlInput.value.trim() : '';
+            let url = urlInput ? urlInput.value.trim() : '';
 
             if (!url) {
-                alert('Target endpoint required. Please enter a valid URL.');
+                alert('Please enter a target website URL (e.g., https://example.com)');
                 return;
             }
 
             if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                alert('Invalid URL scheme. Target URL must begin with http:// or https://');
-                return;
+                url = 'https://' + url;
+                if (urlInput) urlInput.value = url;
             }
 
             const scanTypes = [];
             if (document.getElementById('checkRecon').checked) scanTypes.push('recon');
             if (document.getElementById('checkVuln').checked) scanTypes.push('vulnerabilities');
             if (document.getElementById('checkBrowser').checked) scanTypes.push('browser');
+            if (document.getElementById('checkBurp').checked) scanTypes.push('burp');
 
             if (scanTypes.length === 0) {
-                alert('Select at least one assessment probe module to initialize audit.');
+                alert('Please select at least one scan module to continue.');
                 return;
             }
 
             const useBurp = document.getElementById('checkBurp').checked;
+            const useBrowser = document.getElementById('checkBrowser').checked;
+
             const scanBtn = document.getElementById('scanBtn');
+            const scanBtnText = document.getElementById('scanBtnText');
             const loadingSection = document.getElementById('loadingSection');
             const resultsSection = document.getElementById('resultsSection');
             const progressBar = document.getElementById('progressBar');
+            const progressPct = document.getElementById('progressPct');
             const scanStatus = document.getElementById('scanStatus');
 
             loadingSection.classList.remove('hidden');
             resultsSection.classList.add('hidden');
             scanBtn.disabled = true;
+            scanBtnText.textContent = 'SCANNING IN PROGRESS...';
             progressBar.style.width = '10%';
-            scanStatus.textContent = 'CONNECTING TO KAVALU LABS ENGINE...';
+            progressPct.textContent = '10%';
+            scanStatus.textContent = 'CONNECTING TO SECURITY ENGINE...';
 
             try {
                 const response = await fetch(`${BACKEND_URL}/api/scan`, {
@@ -990,14 +1225,13 @@
                         url: url,
                         scan_types: scanTypes,
                         use_burp: useBurp,
-                        use_selenium: document.getElementById('checkBrowser').checked
+                        use_selenium: useBrowser
                     })
                 });
 
                 const contentType = response.headers.get('content-type') || '';
                 if (!contentType.includes('application/json')) {
-                    const text = await response.text();
-                    throw new Error(`Connected to ${window.location.host}, but the Flask security engine is not running on port 5000. Start backend with: python app.py`);
+                    throw new Error(`Cannot connect to the Flask backend server at ${BACKEND_URL || 'http://127.0.0.1:5000'}.\nPlease ensure 'python app.py' is running in your terminal.`);
                 }
 
                 const data = await response.json();
@@ -1007,16 +1241,25 @@
                 }
 
                 currentScanId = data.scan_id;
-                scanStatus.textContent = 'ASSESSMENT PROBES ACTIVE · EXECUTING TELEMETRY...';
+                scanStatus.textContent = 'SCAN STARTED · RUNNING TESTS...';
                 progressBar.style.width = '25%';
+                progressPct.textContent = '25%';
 
                 if (statusCheckInterval) clearInterval(statusCheckInterval);
-                statusCheckInterval = setInterval(() => checkScanStatus(currentScanId), 2000);
+                statusCheckInterval = setInterval(() => checkScanStatus(currentScanId), 1500);
 
             } catch (error) {
-                alert('Scan Initialization Failed: ' + error.message);
+                let userFriendlyMsg = error.message;
+                if (!error.message || error.message.includes('Failed to fetch') || error.name === 'TypeError') {
+                    userFriendlyMsg = 'Cannot connect to the Flask Security Engine at ' + (BACKEND_URL || 'http://127.0.0.1:5000') + '.\n\n' +
+                                      'Please ensure the backend is running in your terminal:\n' +
+                                      '👉 Run: python app.py\n\n' +
+                                      'Once the server is running, click "START SECURITY SCAN" again.';
+                }
+                alert('Backend Connection Notice:\n\n' + userFriendlyMsg);
                 loadingSection.classList.add('hidden');
                 scanBtn.disabled = false;
+                scanBtnText.textContent = 'START SECURITY SCAN ➔';
             }
         }
 
@@ -1024,50 +1267,155 @@
             try {
                 const response = await fetch(`${BACKEND_URL}/api/scan/status/${scanId}`);
                 const contentType = response.headers.get('content-type') || '';
-
-                if (!contentType.includes('application/json')) {
-                    return;
-                }
+                if (!contentType.includes('application/json')) return;
 
                 const data = await response.json();
+                if (data.error) throw new Error(data.error);
 
-                if (data.error) {
-                    throw new Error(data.error);
-                }
-
-                const statusMsg = data.current_message || 'ASSESSMENT PROBE IN PROGRESS...';
+                const statusMsg = data.current_message || 'Running security tests...';
                 document.getElementById('scanStatus').textContent = statusMsg.toUpperCase();
 
-                let progress = 25;
+                let progress = 35;
                 if (data.status === 'running') progress = 65;
                 if (data.status === 'completed') progress = 100;
                 document.getElementById('progressBar').style.width = progress + '%';
+                document.getElementById('progressPct').textContent = progress + '%';
 
                 if (data.status === 'completed' || data.status === 'error') {
                     clearInterval(statusCheckInterval);
                     document.getElementById('loadingSection').classList.add('hidden');
-                    document.getElementById('scanBtn').disabled = false;
+                    const scanBtn = document.getElementById('scanBtn');
+                    scanBtn.disabled = false;
+                    document.getElementById('scanBtnText').textContent = 'START SECURITY SCAN ➔';
 
                     if (data.status === 'completed') {
                         displayResults(data);
                     } else {
-                        alert('Scan Error: ' + (data.error || 'Execution encountered an anomaly'));
+                        alert('Scan Error: ' + (data.error || 'The scan encountered an unexpected problem.'));
                     }
 
                     loadHistory();
                 }
 
             } catch (error) {
-                console.error('Status check probe error:', error);
+                console.error('Status check error:', error);
             }
         }
 
         function displayResults(data) {
-            const resultsSection = document.getElementById('resultsSection');
-            resultsSection.classList.remove('hidden');
+            if (!data) return;
+            currentScanId = data.scan_id || currentScanId;
 
-            document.getElementById('resultTarget').textContent = data.target_url;
-            document.getElementById('resultScanId').textContent = (data.scan_id || '').substring(0, 8);
+            const resultsSection = document.getElementById('resultsSection');
+            if (resultsSection) resultsSection.classList.remove('hidden');
+
+            const resultTarget = document.getElementById('resultTarget');
+            if (resultTarget) resultTarget.textContent = data.target_url || '-';
+
+            const resultScanId = document.getElementById('resultScanId');
+            if (resultScanId) resultScanId.textContent = (data.scan_id || '').substring(0, 8);
+
+            // Dynamic Target Infrastructure & Developer Attribution Population
+            try {
+                const deployment = Object.assign({}, data.deployment_info || {});
+                const developer = Object.assign({}, data.developer_info || {});
+
+                // Fallback to finding details if not at root or if default placeholders
+                (data.findings || []).forEach(f => {
+                    if (f && f.type === 'deployment_infrastructure') {
+                        const d = f.details || {};
+                        if (!deployment.platform || deployment.platform === 'Unknown' || deployment.platform === 'Detecting...') {
+                            deployment.platform = d.platform || deployment.platform;
+                        }
+                        if (!deployment.location || deployment.location === '-' || deployment.location === 'Detecting...' || deployment.location === 'Unknown') {
+                            deployment.location = d.server_location || deployment.location;
+                        }
+                        if (!deployment.ip_address || deployment.ip_address === '-' || deployment.ip_address === 'Resolving...' || deployment.ip_address === 'Unknown') {
+                            deployment.ip_address = d.server_ip || deployment.ip_address;
+                        }
+                        if (!deployment.server_header || deployment.server_header === '-' || deployment.server_header === 'Detecting...' || deployment.server_header === 'N/A') {
+                            deployment.server_header = d.server_header || deployment.server_header;
+                        }
+                        if (!deployment.asn || deployment.asn === 'N/A') {
+                            deployment.asn = d.network_asn || deployment.asn;
+                        }
+                        if (!deployment.hosting_org || deployment.hosting_org === '-' || deployment.hosting_org === 'Unknown') {
+                            deployment.hosting_org = d.hosting_org || deployment.hosting_org;
+                        }
+                    }
+                    if (f && f.type === 'developer_identity') {
+                        const d = f.details || {};
+                        if (!developer.developer_name || developer.developer_name === 'Detecting...' || String(developer.developer_name).includes('Not disclosed')) {
+                            developer.developer_name = d.developer_name || developer.developer_name;
+                        }
+                        if (!developer.organization || developer.organization === '-' || developer.organization === 'Detecting...' || String(developer.organization).includes('Not disclosed')) {
+                            developer.organization = d.organization || developer.organization;
+                        }
+                        if (!developer.discovery_source || developer.discovery_source === 'None' || developer.discovery_source === 'Scanning...') {
+                            developer.discovery_source = d.discovery_source || developer.discovery_source;
+                        }
+                        if (!developer.confidence || developer.confidence === 'Analyzing') {
+                            developer.confidence = d.confidence || developer.confidence;
+                        }
+                        if ((!developer.social_footprint || developer.social_footprint.length === 0) && d.social_profiles) {
+                            developer.social_footprint = d.social_profiles;
+                        }
+                    }
+                });
+
+                const attrPlatform = document.getElementById('attrPlatform');
+                if (attrPlatform) attrPlatform.textContent = deployment.platform || 'Custom Web Server';
+
+                const attrServerHeader = document.getElementById('attrServerHeader');
+                if (attrServerHeader) attrServerHeader.textContent = 'Server: ' + (deployment.server_header || 'Standard / Hidden');
+
+                const attrLocation = document.getElementById('attrLocation');
+                if (attrLocation) attrLocation.textContent = deployment.location || deployment.server_location || 'Global / Cloud Infrastructure';
+
+                const attrIp = document.getElementById('attrIp');
+                if (attrIp) {
+                    let ipVal = deployment.ip_address || deployment.server_ip || 'Resolved via DNS';
+                    let asnVal = (deployment.asn && deployment.asn !== 'N/A') ? ` · ${deployment.asn}` : '';
+                    attrIp.textContent = 'IP: ' + ipVal + asnVal;
+                }
+
+                const attrDeveloper = document.getElementById('attrDeveloper');
+                if (attrDeveloper) attrDeveloper.textContent = developer.developer_name || 'Not Disclosed in Metadata';
+
+                const attrDevSource = document.getElementById('attrDevSource');
+                if (attrDevSource) attrDevSource.textContent = 'Source: ' + (developer.discovery_source || 'Metadata Discovery');
+
+                const attrOrg = document.getElementById('attrOrg');
+                if (attrOrg) attrOrg.textContent = developer.organization || deployment.hosting_org || 'Independent Target';
+
+                const socialsContainer = document.getElementById('attrSocials');
+                if (socialsContainer) {
+                    const socials = developer.social_footprint || developer.social_profiles || [];
+                    if (socials && socials.length > 0) {
+                        socialsContainer.innerHTML = socials.slice(0, 3).map(s => {
+                            const url = typeof s === 'string' ? s : (s && s.url ? s.url : '#');
+                            let label = 'Profile';
+                            if (typeof s === 'object' && s && s.handle) {
+                                label = `${s.platform || 'Social'}: @${s.handle}`;
+                            } else if (typeof url === 'string') {
+                                const clean = url.replace(/^https?:\/\//i, '').split('/')[1];
+                                if (clean) label = clean;
+                            }
+                            return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="attr-social-link">${label} ↗</a>`;
+                        }).join(' ');
+                    } else {
+                        socialsContainer.textContent = 'Provider: ' + (deployment.hosting_org || deployment.isp || 'Direct Cloud');
+                    }
+                }
+
+                const attrConfidence = document.getElementById('attrConfidence');
+                if (attrConfidence) {
+                    const conf = developer.confidence || 'Discovered';
+                    attrConfidence.textContent = `${String(conf).toUpperCase()} CONFIDENCE`;
+                }
+            } catch (err) {
+                console.warn('Attribution display warning:', err);
+            }
 
             const stats = data.stats || {};
             document.getElementById('statCritical').textContent = stats.critical || 0;
@@ -1087,7 +1435,7 @@
                 findingsList.innerHTML = `
                     <div class="empty-placeholder">
                         <i class="fas fa-shield-alt" style="color: var(--ok);"></i>
-                        <p style="color: var(--ok); font-weight: 700;">NO CRITICAL VULNERABILITIES DETECTED ON PUBLIC SURFACE.</p>
+                        <p style="color: var(--ok); font-weight: 700;">NO VULNERABILITIES DETECTED ON PUBLIC SURFACE.</p>
                     </div>
                 `;
                 return;
@@ -1102,7 +1450,7 @@
                 if (finding.remediation) {
                     remediationHtml = `
                         <div class="remed-box">
-                            <b>REMEDIATION ADVISORY</b>
+                            <b>HOW TO FIX (REMEDIATION):</b>
                             ${finding.remediation}
                         </div>
                     `;
@@ -1113,7 +1461,7 @@
                     const detailItems = Object.entries(finding.details)
                         .slice(0, 4)
                         .map(([k, v]) => {
-                            const val = typeof v === 'object' ? JSON.stringify(v).substring(0, 60) : String(v).substring(0, 60);
+                            const val = typeof v === 'object' ? JSON.stringify(v).substring(0, 70) : String(v).substring(0, 70);
                             return `<span><strong>${k}:</strong> ${val}</span>`;
                         })
                         .join(' · ');
@@ -1157,36 +1505,80 @@
                 if (!history || history.length === 0) {
                     historyList.innerHTML = `
                         <div class="empty-placeholder">
-                            <i class="fas fa-clipboard-list"></i>
-                            <p>NO AUDIT LOGS RECORDED. RUN A SCAN TO INITIALIZE TELEMETRY.</p>
+                            <i class="fas fa-history"></i>
+                            <p>NO PREVIOUS SCANS RECORDED. Run a scan above to see results saved here.</p>
                         </div>
                     `;
                     return;
                 }
 
+                window._cachedHistory = history;
+
                 historyList.innerHTML = history.slice(-5).reverse().map(scan => {
                     const stats = scan.stats || {};
+                    const platform = (scan.deployment_info && scan.deployment_info.platform) ? ` · ${scan.deployment_info.platform}` : '';
                     return `
-                        <div class="history-row">
+                        <div class="history-row" style="cursor: pointer;" onclick="loadHistoryScan('${scan.scan_id}')" title="Click to view full findings and attribution">
                             <div>
-                                <div class="history-target">${scan.target_url}</div>
-                                <div class="history-date">${new Date(scan.start_time).toLocaleString()}</div>
+                                <div class="history-target">${scan.target_url} <span style="font-size:10.5px; color:var(--ac); font-weight:700;">${platform}</span></div>
+                                <div class="history-date">${new Date(scan.start_time).toLocaleString()} · ID: ${scan.scan_id.substring(0, 8)}</div>
                             </div>
                             <div class="history-counts">
                                 <span style="color: var(--rd);">${stats.critical || 0} CRIT</span>
                                 <span style="color: var(--warn);">${stats.high || 0} HIGH</span>
                                 <span class="tg r" style="font-size: 9.5px;">${scan.status.toUpperCase()}</span>
+                                <span class="tg" style="font-size: 9.5px; color: var(--ac); border-color: var(--ac);">VIEW ➔</span>
                             </div>
                         </div>
                     `;
                 }).join('');
 
+                // Auto-populate latest completed scan on initial page load if available
+                if (!currentScanId && history.length > 0) {
+                    const latest = history[history.length - 1];
+                    if (latest && latest.status === 'completed') {
+                        displayResults(latest);
+                    }
+                }
+
             } catch (error) {
-                console.error('History load probe error:', error);
+                console.error('History load error:', error);
             }
         }
 
+        function loadHistoryScan(scanId) {
+            if (!window._cachedHistory) return;
+            const scan = window._cachedHistory.find(s => s.scan_id === scanId);
+            if (scan) {
+                displayResults(scan);
+            }
+        }
+
+        async function checkBackendHealth() {
+            const hud = document.getElementById('hud');
+            if (!hud) return;
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/history`, { cache: 'no-store' });
+                if (res.ok) {
+                    hud.innerHTML = '<i style="background:var(--ok); box-shadow: 0 0 8px var(--ok);"></i>ENGINE: <b>ONLINE</b> · PORT: <b>5000</b> · READY';
+                    hud.style.borderColor = 'var(--ln)';
+                    return;
+                }
+            } catch (err) {
+                // Server not reachable
+            }
+            hud.innerHTML = '<i style="background:var(--rd); box-shadow: 0 0 8px var(--rd);"></i>BACKEND: <b>OFFLINE</b> · RUN: <b>python app.py</b>';
+            hud.style.borderColor = 'var(--rd)';
+        }
+
+        // Initialize state
+        syncCardVisual('checkRecon');
+        syncCardVisual('checkVuln');
+        syncCardVisual('checkBrowser');
+        syncCardVisual('checkBurp');
         loadHistory();
+        checkBackendHealth();
+        setInterval(checkBackendHealth, 5000);
     </script>
 </body>
 </html>
