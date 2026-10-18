@@ -1,11 +1,9 @@
 """
 Kavalu Labs Security Engine
 High-assurance web application security testing tool using Requests, Selenium, and Burp Suite integration.
-
-Developed by Vinayaka N Walishettar
 """
 
-__author__ = "Vinayaka N Walishettar"
+__author__ = "Kavalu Labs"
 
 from flask import Flask, render_template, request, jsonify, send_file
 from datetime import datetime

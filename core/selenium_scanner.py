@@ -1,11 +1,9 @@
 """
 Selenium Scanner Module
 Browser-based security testing using Selenium WebDriver.
-
-Developed by Vinayaka N Walishettar
 """
 
-__author__ = "Vinayaka N Walishettar"
+__author__ = "Kavalu Labs"
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -18,6 +16,7 @@ from selenium.common.exceptions import TimeoutException, NoAlertPresentException
 from typing import Dict, List, Any, Optional
 import time
 import re
+import threading
 
 
 class SeleniumScanner:
@@ -28,14 +27,14 @@ class SeleniumScanner:
         self.timeout = 10
         
     def _init_driver(self, proxy: Optional[str] = None):
-        """Initialize Chrome WebDriver with options."""
+        """Initialize Chrome WebDriver with options and a strict timeout."""
         chrome_options = Options()
-        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--headless=new')
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
         chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--window-size=1920,1080')
-        chrome_options.add_argument('--user-agent=WebSecTester/1.0 Security Scanner')
+        chrome_options.add_argument('--user-agent=KavaluSecurity/2.0 BrowserTester')
         chrome_options.add_argument('--ignore-certificate-errors')
         chrome_options.add_argument('--allow-insecure-localhost')
         
@@ -45,12 +44,28 @@ class SeleniumScanner:
         # Disable logging
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
         
-        try:
-            service = Service(ChromeDriverManager().install())
-            self.driver = webdriver.Chrome(service=service, options=chrome_options)
-            self.driver.set_page_load_timeout(30)
-        except Exception as e:
-            raise Exception(f"Failed to initialize Chrome driver: {str(e)}")
+        driver_box = {}
+        driver_err = {}
+
+        def _init_attempt():
+            try:
+                # Direct webdriver attempt without blocking download
+                d = webdriver.Chrome(options=chrome_options)
+                d.set_page_load_timeout(10)
+                driver_box['driver'] = d
+            except Exception as e1:
+                driver_err['error'] = str(e1)
+
+        t = threading.Thread(target=_init_attempt)
+        t.daemon = True
+        t.start()
+        t.join(timeout=3.5)
+
+        if 'driver' in driver_box:
+            self.driver = driver_box['driver']
+        else:
+            err_msg = driver_err.get('error', 'WebDriver initialization timed out after 3.5s')
+            raise RuntimeError(f"Chrome WebDriver not responsive: {err_msg}")
     
     def scan(self, target_url: str, proxy: Optional[str] = None) -> List[Dict]:
         """

@@ -1,5 +1,5 @@
 # Kavalu Labs Security Engine — Deploy to Vercel
-**Developed by Vinayaka N Walishettar**
+**Kavalu Labs Security Engine**
 
 ## Prerequisites
 1. Vercel account (free at https://vercel.com)

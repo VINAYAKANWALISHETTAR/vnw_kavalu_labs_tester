@@ -1,6 +1,6 @@
 """Core security scanning modules."""
 
-__author__ = "Vinayaka N Walishettar"
+__author__ = "Kavalu Labs"
 
 from .scanner import SecurityScanner
 from .vulnerability_scanner import VulnerabilityScanner

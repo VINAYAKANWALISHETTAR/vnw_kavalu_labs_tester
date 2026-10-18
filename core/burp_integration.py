@@ -1,11 +1,9 @@
 """
 Burp Suite Integration Module
 Provides integration with Burp Suite proxy and API.
-
-Developed by Vinayaka N Walishettar
 """
 
-__author__ = "Vinayaka N Walishettar"
+__author__ = "Kavalu Labs"
 
 import requests
 import json

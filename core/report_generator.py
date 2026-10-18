@@ -104,12 +104,25 @@ class ReportGenerator:
         # Executive Summary
         elements.append(Paragraph("Executive Summary", heading_style))
         
+        deployment = scan_data.get('deployment_info') or {}
+        developer = scan_data.get('developer_info') or {}
+        if not deployment or not developer:
+            for f in scan_data.get('findings', []):
+                if f.get('type') == 'deployment_infrastructure' and not deployment:
+                    deployment = f.get('details', {})
+                elif f.get('type') == 'developer_identity' and not developer:
+                    developer = f.get('details', {})
+
         summary_data = [
             ['Target URL', scan_data.get('target_url', 'N/A')],
             ['Scan ID', scan_data['scan_id']],
-            ['Developed By', 'Vinayaka N Walishettar'],
+            ['Assessment Engine', 'Kavalu Labs Security Engine'],
+            ['Deployed Platform', str(deployment.get('platform', 'N/A'))],
+            ['Server Location', str(deployment.get('location', deployment.get('server_location', 'N/A')))],
+            ['Server IP', str(deployment.get('ip_address', deployment.get('server_ip', 'N/A')))],
+            ['Target Developer', str(developer.get('developer_name', 'Not Disclosed'))],
+            ['Target Organization', str(developer.get('organization', 'Not Disclosed'))],
             ['Start Time', scan_data.get('start_time', 'N/A')],
-            ['End Time', scan_data.get('end_time', 'N/A')],
             ['Status', scan_data.get('status', 'N/A')],
         ]
         
@@ -119,12 +132,39 @@ class ReportGenerator:
             ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
             ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
             ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
-            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('FONTSIZE', (0, 0), (-1, -1), 9),
             ('GRID', (0, 0), (-1, -1), 1, colors.grey),
             ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, colors.HexColor('#f5f5f5')])
         ]))
         
         elements.append(summary_table)
+        elements.append(Spacer(1, 0.2*inch))
+        
+        # Target Infrastructure & Developer Attribution Section
+        elements.append(Paragraph("Target Infrastructure & Developer Attribution", heading_style))
+        attr_table_data = [
+            ['Deployed Platform', str(deployment.get('platform', 'Custom Web Server'))],
+            ['Server Geolocation', str(deployment.get('location', deployment.get('server_location', 'Unknown')))],
+            ['Server IP Address', str(deployment.get('ip_address', deployment.get('server_ip', 'Unknown')))],
+            ['Reverse DNS / Host', str(deployment.get('reverse_dns', 'N/A'))],
+            ['Web Server Header', str(deployment.get('server_header', 'N/A'))],
+            ['Hosting Provider / ASN', f"{deployment.get('hosting_org', 'N/A')} ({deployment.get('asn', deployment.get('network_asn', 'N/A'))})"],
+            ['Discovered Developer', str(developer.get('developer_name', 'Not Disclosed in Public Metadata'))],
+            ['Attribution Confidence', f"{developer.get('confidence', 'N/A')} (Source: {developer.get('discovery_source', 'N/A')})"],
+            ['Target Organization', str(developer.get('organization', 'N/A'))],
+            ['Copyright Notice', str(developer.get('copyright', 'N/A'))],
+        ]
+        attr_table = Table(attr_table_data, colWidths=[2.2*inch, 3.8*inch])
+        attr_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#ede7f6')),
+            ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, -1), 9),
+            ('GRID', (0, 0), (-1, -1), 1, colors.HexColor('#b39ddb')),
+            ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, colors.HexColor('#fafafa')])
+        ]))
+        elements.append(attr_table)
         elements.append(Spacer(1, 0.3*inch))
         
         # Risk Summary
@@ -213,6 +253,15 @@ class ReportGenerator:
         
         stats = scan_data.get('stats', {})
         findings = scan_data.get('findings', [])
+        
+        deployment = scan_data.get('deployment_info') or {}
+        developer = scan_data.get('developer_info') or {}
+        if not deployment or not developer:
+            for f in findings:
+                if f.get('type') == 'deployment_infrastructure' and not deployment:
+                    deployment = f.get('details', {})
+                elif f.get('type') == 'developer_identity' and not developer:
+                    developer = f.get('details', {})
         
         severity_order = {'critical': 0, 'high': 1, 'medium': 2, 'low': 3, 'info': 4}
         sorted_findings = sorted(findings, key=lambda x: severity_order.get(x.get('severity', 'info'), 4))
@@ -333,10 +382,36 @@ class ReportGenerator:
         <div class="header">
             <h1>Kavalu Labs Security Engine — Security Report</h1>
             <p>Target: {scan_data.get('target_url', 'Unknown')}</p>
-            <p>Developed by: <strong>Vinayaka N Walishettar</strong></p>
+            <p>Assessment Engine: <strong>Kavalu Labs Security Engine</strong></p>
             <p>Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
         </div>
         
+        <div style="background: white; border: 1px solid #e0e0e0; border-left: 6px solid #283593; border-radius: 8px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.06);">
+            <h2 style="margin-top: 0; color: #283593; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 8px; font-weight: 700;">Target Infrastructure & Developer Attribution</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 14px;">
+                <div>
+                    <span style="font-size: 11px; text-transform: uppercase; color: #777; font-weight: bold; display: block;">DEPLOYED PLATFORM</span>
+                    <strong style="color: #d32f2f; font-size: 16px;">{deployment.get('platform', 'Custom Web Server')}</strong>
+                    <div style="font-size: 12px; color: #666; margin-top: 4px;">Server: {deployment.get('server_header', 'N/A')}</div>
+                </div>
+                <div>
+                    <span style="font-size: 11px; text-transform: uppercase; color: #777; font-weight: bold; display: block;">HOSTING LOCATION & IP</span>
+                    <strong style="color: #111; font-size: 15px;">{deployment.get('location', deployment.get('server_location', 'Unknown'))}</strong>
+                    <div style="font-size: 12px; color: #666; margin-top: 4px;">IP: {deployment.get('ip_address', deployment.get('server_ip', 'Unknown'))}</div>
+                </div>
+                <div>
+                    <span style="font-size: 11px; text-transform: uppercase; color: #777; font-weight: bold; display: block;">ATTRIBUTED DEVELOPER / AUTHOR</span>
+                    <strong style="color: #2e7d32; font-size: 15px;">{developer.get('developer_name', 'Not Disclosed')}</strong>
+                    <div style="font-size: 12px; color: #666; margin-top: 4px;">Source: {developer.get('discovery_source', 'Metadata')}</div>
+                </div>
+                <div>
+                    <span style="font-size: 11px; text-transform: uppercase; color: #777; font-weight: bold; display: block;">ORGANIZATION & HOSTING</span>
+                    <strong style="color: #111; font-size: 15px;">{developer.get('organization', 'Not Disclosed')}</strong>
+                    <div style="font-size: 12px; color: #666; margin-top: 4px;">Provider: {deployment.get('hosting_org', 'N/A')}</div>
+                </div>
+            </div>
+        </div>
+
         <div class="summary-grid">
             <div class="summary-card critical">
                 <div class="label">Critical</div>
@@ -395,8 +470,20 @@ class ReportGenerator:
         
         <div class="metadata">
             <div class="metadata-item">
-                <span class="metadata-label">Developed By:</span>
-                <span>Vinayaka N Walishettar</span>
+                <span class="metadata-label">Assessment Engine:</span>
+                <span>Kavalu Labs Security Engine</span>
+            </div>
+            <div class="metadata-item">
+                <span class="metadata-label">Deployed Platform:</span>
+                <span>{deployment.get('platform', 'Custom')}</span>
+            </div>
+            <div class="metadata-item">
+                <span class="metadata-label">Server Location:</span>
+                <span>{deployment.get('location', deployment.get('server_location', 'Unknown'))}</span>
+            </div>
+            <div class="metadata-item">
+                <span class="metadata-label">Target Developer:</span>
+                <span>{developer.get('developer_name', 'Not Disclosed')}</span>
             </div>
             <div class="metadata-item">
                 <span class="metadata-label">Scan ID:</span>
@@ -432,7 +519,9 @@ class ReportGenerator:
         os.makedirs('reports', exist_ok=True)
         
         scan_data_copy = dict(scan_data)
-        scan_data_copy['developed_by'] = 'Vinayaka N Walishettar'
+        scan_data_copy['engine'] = 'Kavalu Labs Security Engine'
+        scan_data_copy['deployment_info'] = scan_data.get('deployment_info') or {}
+        scan_data_copy['developer_info'] = scan_data.get('developer_info') or {}
         with open(report_path, 'w') as f:
             json.dump(scan_data_copy, f, indent=2)
         
